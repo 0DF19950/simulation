@@ -3,9 +3,12 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-export default defineConfig(({command}) => {
+export default defineConfig(() => {
   return {
-    base: command === 'build' ? '/simulation/' : '/',
+    // IMPORTANT for GitHub Pages: this must match your repo name exactly,
+    // e.g. if your repo is github.com/yourname/falling-lesson, this should
+    // be '/falling-lesson/'. Wrong value here = blank page with 404s in console.
+    base: '/REPLACE-WITH-YOUR-REPO-NAME/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

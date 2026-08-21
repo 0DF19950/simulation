@@ -125,7 +125,7 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
             </div>
           </div>
 
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 lg:mt-16">
             <FallingInstrumentWidget />
           </div>
         </div>
@@ -247,6 +247,31 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
               </div>
             </div>
 
+            {/* Solving the equation for time — the missing "how it gets solved" piece */}
+            <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
+              <h3 className="font-sans font-semibold text-lg text-deepteal">
+                Solving it: when does the ball actually land?
+              </h3>
+              <p className="text-sm text-deepteal-soft">
+                So far we've only plugged a time in and read off a height. But the real question from the intro was <em>"how long will it take to hit the ground?"</em> — that means solving for <MathFormula latex="t" />, not evaluating it. Set <MathFormula latex="y(t) = 0" /> and rearrange into standard quadratic form:
+              </p>
+              <MathFormula latex="\tfrac{1}{2} g t^2 - v_0 t - y_0 = 0" block />
+              <p className="text-sm text-deepteal-soft">
+                Apply the quadratic formula (<MathFormula latex="a=\tfrac{1}{2}g,\ b=-v_0,\ c=-y_0" />) and keep the positive root, since a negative time doesn't correspond to anything physical:
+              </p>
+              <MathFormula latex="t = \frac{v_0 + \sqrt{v_0^2 + 2 g y_0}}{g}" block />
+              <p className="text-sm text-deepteal-soft">
+                With <MathFormula latex="v_0 = 0" /> this simplifies nicely to <MathFormula latex="t = \sqrt{\tfrac{2 y_0}{g}}" />. Plugging in <MathFormula latex="y_0 = 50" /> m and <MathFormula latex="g = 9.8" /> m/s²:
+              </p>
+              <div className="bg-cream p-3 rounded-lg border border-sage/60 font-mono text-xs text-deepteal space-y-1">
+                <div>t = √(2 × 50 / 9.8)</div>
+                <div className="font-bold">t ≈ 3.19 s</div>
+              </div>
+              <p className="text-xs text-deepteal-soft italic">
+                Keep that 3.19 s in mind — you'll see the exact same number for Earth in the planet comparison below, computed the same way.
+              </p>
+            </div>
+
             {/* Worked example + explicit "not needed yet" callout */}
             <div className="bg-sage-light/50 border border-sage-dark/40 rounded-xl p-5 space-y-3 shadow-xs">
               <h3 className="font-sans font-semibold text-lg text-deepteal">
@@ -325,6 +350,34 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
                 ))}
               </ol>
               <p className="text-xs text-deepteal-soft italic">The motion emerges naturally from these small steps — no closed-form equation required.</p>
+            </div>
+
+            {/* From equations to code — the explicit bridge that was missing */}
+            <div className="bg-deepteal text-cream rounded-xl p-5 space-y-3 shadow-xs">
+              <h3 className="font-sans font-semibold text-lg flex items-center gap-2">
+                <span>From equations to code</span>
+              </h3>
+              <p className="text-sm text-sage-light font-sans">
+                Here's that exact 5-step loop, written as real Python — line for line, the same code the interactive lab below actually runs:
+              </p>
+              <pre className="bg-deepteal-dark border border-sage/30 rounded-lg p-4 text-xs font-mono text-cream overflow-x-auto leading-relaxed">
+{`def acceleration(y, v):
+    g = 9.8
+    return -g
+
+y, v, t = 50.0, 0.0, 0.0
+dt = 0.02
+
+while y > 0:
+    a = acceleration(y, v)   # 1. calculate acceleration
+    v += a * dt              # 2. update velocity
+    y += v * dt              # 3. update position
+    t += dt                  # 4. advance time
+                              # 5. repeat — that's what "while" does`}
+              </pre>
+              <p className="text-xs text-sage-light font-sans">
+                No quadratic formula anywhere in this code — it never needed one. It just repeats four tiny updates until <span className="font-mono">y</span> reaches the ground, and the correct trajectory falls out of that repetition. That's the whole idea of simulation: trade one hard equation for many easy steps.
+              </p>
             </div>
 
             {/* Real-world applications */}
