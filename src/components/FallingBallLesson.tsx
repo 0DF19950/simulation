@@ -3,6 +3,7 @@ import { CELESTIAL_BODIES } from '../data/physicsData';
 import { CelestialBody } from '../types';
 import { MathFormula, MathText } from './MathFormula';
 import { PreLessonQuiz } from './PreLessonQuiz';
+import { FallingInstrumentWidget } from './FallingInstrumentWidget';
 import {
   Compass, HelpCircle, Globe, Cpu, Sliders,
   Ruler, Gauge, Zap, RefreshCw, Target, Rocket, Lightbulb,
@@ -95,31 +96,37 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
   return (
     <section className="py-12 bg-cream border-b border-sage/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-8 space-y-4">
-          <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold mb-2">
-            <Compass className="w-4 h-4 text-gold-hover" />
-            <span>Exemplar Masterclass Lesson · Level 1</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-sans font-bold text-deepteal">
-            What is falling, actually?
-          </h2>
-          <p className="text-sm sm:text-base text-deepteal-soft font-sans max-w-3xl mt-1">
-            Before touching any Python code, let's build absolute physical intuition for free fall, derive its second-degree equation, compare celestial bodies, and understand why we simulate.
-          </p>
-
-          <div className="bg-cream-card border border-sage rounded-xl p-5 max-w-3xl font-sans text-sm text-deepteal-soft leading-relaxed">
-            <p className="mb-2">
-              Imagine standing on top of a 50-metre building holding a ball. You let go. The ball falls. Simple enough — until someone asks:
+        {/* Section Header + Instrument Widget */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-start">
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold mb-2">
+              <Compass className="w-4 h-4 text-gold-hover" />
+              <span>Exemplar Masterclass Lesson · Level 1</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-sans font-bold text-deepteal">
+              What is falling, actually?
+            </h2>
+            <p className="text-sm sm:text-base text-deepteal-soft font-sans max-w-3xl mt-1">
+              Before touching any Python code, let's build absolute physical intuition for free fall, derive its second-degree equation, compare celestial bodies, and understand why we simulate.
             </p>
-            <ul className="list-disc list-inside space-y-0.5 mb-2">
-              <li>How long will it take to hit the ground?</li>
-              <li>How fast will it be moving when it lands?</li>
-              <li>What if you dropped it on the Moon?</li>
-              <li>What if there was air resistance?</li>
-              <li>What if you dropped it from space?</li>
-            </ul>
-            <p>Suddenly, the problem gets interesting. That's what this lesson — and eventually simulation — is for.</p>
+
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine standing on top of a 50-metre building holding a ball. You let go. The ball falls. Simple enough — until someone asks:
+              </p>
+              <ul className="list-disc list-inside space-y-0.5 mb-2">
+                <li>How long will it take to hit the ground?</li>
+                <li>How fast will it be moving when it lands?</li>
+                <li>What if you dropped it on the Moon?</li>
+                <li>What if there was air resistance?</li>
+                <li>What if you dropped it from space?</li>
+              </ul>
+              <p>Suddenly, the problem gets interesting. That's what this lesson — and eventually simulation — is for.</p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <FallingInstrumentWidget />
           </div>
         </div>
 
