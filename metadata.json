@@ -1,0 +1,6 @@
+{
+  "name": "Philomathlab — Physics Simulation Course Platform",
+  "description": "An interactive educational platform for learning physics, math, and programming through Python simulations across High School, Undergraduate, and Researcher levels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -2,12 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CELESTIAL_BODIES } from '../data/physicsData';
 import { CelestialBody } from '../types';
 import { MathFormula, MathText } from './MathFormula';
-import { PreLessonQuiz } from './PreLessonQuiz';
-import { FallingInstrumentWidget } from './FallingInstrumentWidget';
-import {
-  Compass, HelpCircle, Globe, Cpu, Sliders,
-  Ruler, Gauge, Zap, RefreshCw, Target, Rocket, Lightbulb,
-} from 'lucide-react';
+import { Compass, HelpCircle, ArrowDown, Globe, Cpu, CheckCircle2, Sliders } from 'lucide-react';
 
 interface FallingBallLessonProps {
   onLoadIntoLab: (g: number, bodyName: string) => void;
@@ -96,119 +91,40 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
   return (
     <section className="py-12 bg-cream border-b border-sage/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header + Instrument Widget */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8 items-start">
-          <div className="lg:col-span-7 space-y-4">
-            <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold mb-2">
-              <Compass className="w-4 h-4 text-gold-hover" />
-              <span>Exemplar Masterclass Lesson · Level 1</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-sans font-bold text-deepteal">
-              What is falling, actually?
-            </h2>
-            <p className="text-sm sm:text-base text-deepteal-soft font-sans max-w-3xl mt-1">
-              Before touching any Python code, let's build absolute physical intuition for free fall, derive its second-degree equation, compare celestial bodies, and understand why we simulate.
-            </p>
-
-            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-              <p className="mb-2">
-                Imagine standing on top of a 50-metre building holding a ball. You let go. The ball falls. Simple enough — until someone asks:
-              </p>
-              <ul className="list-disc list-inside space-y-0.5 mb-2">
-                <li>How long will it take to hit the ground?</li>
-                <li>How fast will it be moving when it lands?</li>
-                <li>What if you dropped it on the Moon?</li>
-                <li>What if there was air resistance?</li>
-                <li>What if you dropped it from space?</li>
-              </ul>
-              <p>Suddenly, the problem gets interesting. That's what this lesson — and eventually simulation — is for.</p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5">
-            <FallingInstrumentWidget />
-          </div>
-        </div>
-
+        {/* Section Header */}
         <div className="mb-8">
-          <PreLessonQuiz />
+          <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold mb-2">
+            <Compass className="w-4 h-4 text-gold-hover" />
+            <span>Exemplar Masterclass Lesson · Level 1</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-sans font-bold text-deepteal">
+            What is falling, actually?
+          </h2>
+          <p className="text-sm sm:text-base text-deepteal-soft font-sans max-w-3xl mt-1">
+            Before touching any Python code, let's build absolute physical intuition for free fall, derive its second-degree equation, compare celestial bodies, and understand why we simulate.
+          </p>
         </div>
-
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* Left Column: Conceptual Breakdown & Equations */}
           <div className="lg:col-span-7 space-y-6">
             
-            {/* Part 1: Describing Motion */}
-            <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
-              <h3 className="font-sans font-semibold text-lg text-deepteal">
-                1. Describing motion: three quantities
-              </h3>
-              <p className="text-sm text-deepteal-soft">
-                Physics describes any motion — falling or otherwise — with three related quantities.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                <div className="bg-cream p-3 rounded-lg border border-sage/60">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Ruler className="w-3.5 h-3.5 text-gold-hover" />
-                    <span className="font-sans font-bold text-deepteal">Position</span>
-                  </div>
-                  <p className="text-deepteal-soft font-sans">Where the object is. Usually written <span className="font-mono">y</span> or <span className="font-mono">x</span>.</p>
-                </div>
-                <div className="bg-cream p-3 rounded-lg border border-sage/60">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Gauge className="w-3.5 h-3.5 text-gold-hover" />
-                    <span className="font-sans font-bold text-deepteal">Velocity</span>
-                  </div>
-                  <p className="text-deepteal-soft font-sans">How fast position changes. Written <span className="font-mono">v</span>, units m/s.</p>
-                </div>
-                <div className="bg-cream p-3 rounded-lg border border-sage/60">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Zap className="w-3.5 h-3.5 text-gold-hover" />
-                    <span className="font-sans font-bold text-deepteal">Acceleration</span>
-                  </div>
-                  <p className="text-deepteal-soft font-sans">How fast velocity changes. Written <span className="font-mono">a</span>, units m/s².</p>
-                </div>
-              </div>
-              <p className="text-xs text-deepteal-soft italic">Acceleration answers: how much does velocity change every second?</p>
-            </div>
-
             {/* Concept Block */}
             <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
               <h3 className="font-sans font-semibold text-lg text-deepteal flex items-center gap-2">
                 <HelpCircle className="w-5 h-5 text-gold-hover" />
-                <span>2. The Core Physical Intuition</span>
+                <span>1. The Core Physical Intuition</span>
               </h3>
               <p className="text-sm text-deepteal-soft leading-relaxed">
                 When an object drops, it doesn't move at a constant speed — it speeds up continuously. Gravity is not a one-time push; it is a <strong className="text-deepteal font-bold">constant acceleration</strong> (<MathFormula latex="a = -g" />). Every second it falls near Earth, its downward velocity increases by approximately 9.81 m/s.
               </p>
-              <div className="overflow-x-auto">
-                <table className="text-xs font-mono w-full max-w-xs border-collapse">
-                  <thead>
-                    <tr className="text-deepteal-soft border-b border-sage">
-                      <th className="text-left py-1 pr-4 font-sans font-semibold">Time (s)</th>
-                      <th className="text-left py-1 font-sans font-semibold">Velocity (m/s)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[0, 1, 2, 3].map((t) => (
-                      <tr key={t} className="border-b border-sage/40">
-                        <td className="py-1 pr-4 text-deepteal">{t}</td>
-                        <td className="py-1 text-deepteal font-bold">{(t * 9.8).toFixed(1)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <p className="text-xs text-deepteal-soft italic">Gravity itself never gets stronger — the object just keeps accumulating speed because gravity keeps acting continuously.</p>
             </div>
-
 
             {/* Derivation Steps */}
             <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-4 shadow-xs">
               <h3 className="font-sans font-semibold text-lg text-deepteal">
-                3. Step-by-Step Derivation of the 2nd-Degree Equation
+                2. Step-by-Step Derivation of the 2nd-Degree Equation
               </h3>
 
               <div className="space-y-3 text-sm">
@@ -247,28 +163,11 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
               </div>
             </div>
 
-            {/* Worked example + explicit "not needed yet" callout */}
-            <div className="bg-sage-light/50 border border-sage-dark/40 rounded-xl p-5 space-y-3 shadow-xs">
-              <h3 className="font-sans font-semibold text-lg text-deepteal">
-                Do we need simulation yet?
-              </h3>
-              <p className="text-sm text-deepteal-soft">
-                Suppose <MathFormula latex="y_0 = 50" /> m and <MathFormula latex="v_0 = 0" />. After two seconds:
-              </p>
-              <div className="bg-cream p-3 rounded-lg border border-sage/60 font-mono text-xs text-deepteal space-y-1">
-                <div>y = 50 − ½(9.8)(2)²</div>
-                <div className="font-bold">y = 30.4 m</div>
-              </div>
-              <p className="text-sm font-sans">
-                <strong className="text-deepteal">No.</strong> <span className="text-deepteal-soft">For this problem we already have an exact solution — substitute a value for time, calculate the height directly. Simulation is not necessary here. Scientists reach for simulation only once simpler mathematical methods stop working.</span>
-              </p>
-            </div>
-
             {/* Why Do We Simulate Block */}
             <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
               <h3 className="font-sans font-semibold text-lg text-deepteal flex items-center gap-2">
                 <Cpu className="w-5 h-5 text-gold-hover" />
-                <span>4. Why do we simulate if there is an exact formula?</span>
+                <span>3. Why do we simulate if there is an exact formula?</span>
               </h3>
               <p className="text-sm text-deepteal-soft">
                 The formula <MathFormula latex="y(t) = y_0 + v_0 t - \frac{1}{2}gt^2" /> only works in an ideal vacuum with constant gravity. Real physical engineering breaks these assumptions:
@@ -296,61 +195,6 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
                   </span>
                 </div>
               </div>
-
-              <div className="bg-cream p-3.5 rounded-lg border border-sage/60 text-xs font-sans text-deepteal-soft space-y-2">
-                <p>
-                  A more realistic drag model: <MathFormula latex="F_d = \frac{1}{2}\rho C_d A v^2" block /> where ρ is air density, C<sub>d</sub> the drag coefficient, A the cross-sectional area, and v the velocity. Doubling speed quadruples drag.
-                </p>
-                <p>
-                  Once drag depends on velocity, the force keeps changing: <span className="font-mono text-deepteal">velocity → drag → acceleration → velocity</span> — a feedback loop that's difficult to solve analytically, but which a simulation handles naturally by updating the system in many small time steps.
-                </p>
-              </div>
-            </div>
-
-            {/* How a simulation thinks */}
-            <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
-              <h3 className="font-sans font-semibold text-lg text-deepteal flex items-center gap-2">
-                <RefreshCw className="w-5 h-5 text-gold-hover" />
-                <span>How a simulation thinks</span>
-              </h3>
-              <p className="text-sm text-deepteal-soft">
-                Instead of solving everything at once, the computer repeats a short loop — the same loop the Python lab below runs every time you hit "Run":
-              </p>
-              <ol className="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs font-mono">
-                {['Calculate acceleration', 'Update velocity', 'Update position', 'Advance time', 'Repeat'].map((step, i) => (
-                  <li key={i} className="bg-cream p-2.5 rounded-lg border border-sage/60 text-center">
-                    <span className="block text-gold-hover font-bold mb-1">{i + 1}</span>
-                    <span className="text-deepteal-soft font-sans">{step}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className="text-xs text-deepteal-soft italic">The motion emerges naturally from these small steps — no closed-form equation required.</p>
-            </div>
-
-            {/* Real-world applications */}
-            <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-3 shadow-xs">
-              <h3 className="font-sans font-semibold text-lg text-deepteal flex items-center gap-2">
-                <Rocket className="w-5 h-5 text-gold-hover" />
-                <span>Where this shows up</span>
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {['Spacecraft reentry', 'Skydiving', 'Weather forecasting', 'Sports science', 'Aerospace engineering'].map((app) => (
-                  <span key={app} className="text-xs font-mono bg-cream border border-sage rounded-full px-3 py-1 text-deepteal-soft">
-                    {app}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Key takeaway */}
-            <div className="bg-deepteal text-cream rounded-xl p-5 space-y-2 shadow-xs">
-              <h3 className="font-sans font-semibold text-lg flex items-center gap-2">
-                <Lightbulb className="w-5 h-5 text-gold" />
-                <span>Key takeaway</span>
-              </h3>
-              <p className="text-sm text-sage-light font-sans leading-relaxed">
-                A falling ball in a vacuum can be solved exactly. A falling object experiencing changing forces, changing gravity, and air resistance quickly becomes difficult to solve analytically — and that's where simulation becomes one of the most powerful tools in science.
-              </p>
             </div>
 
           </div>
@@ -369,11 +213,6 @@ export const FallingBallLesson: React.FC<FallingBallLessonProps> = ({ onLoadInto
                 <span className="text-xs font-mono text-deepteal-soft font-bold">
                   50m Free Fall
                 </span>
-              </div>
-
-              <div className="flex items-start gap-2 bg-cream p-3 rounded-lg border border-sage/60 text-xs font-sans text-deepteal-soft">
-                <Target className="w-4 h-4 text-gold-hover shrink-0 mt-0.5" />
-                <span><strong className="text-deepteal">Before you click:</strong> without calculating, which planet gives the fastest impact? The slowest? The largest impact speed? Predict first, then check.</span>
               </div>
 
               {/* Celestial Buttons */}
