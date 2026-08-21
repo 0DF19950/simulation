@@ -42,8 +42,14 @@ export const PhilomathLabLogo: React.FC<PhilomathLabLogoProps> = ({
         layout === 'vertical' ? 'flex-col text-center' : ''
       } ${dimensions.space} ${className}`}
     >
-      {/* PhilomathLab Geometric Owl Logo SVG */}
-      <img src="/logo1.png" width={dimensions.iconWidth} height={dimensions.iconHeight} alt="Philomathlab logo" className="shrink-0" />
+      {/* PhilomathLab Owl Logo */}
+      <img
+        src={`${import.meta.env.BASE_URL}logo1.png`}
+        width={dimensions.iconWidth}
+        height={dimensions.iconHeight}
+        alt="Philomathlab logo"
+        className="shrink-0"
+      />
 
       {!iconOnly && (
         <div className="flex flex-col">
