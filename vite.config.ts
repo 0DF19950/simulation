@@ -5,10 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
-    // IMPORTANT for GitHub Pages: this must match your repo name exactly,
-    // e.g. if your repo is github.com/yourname/falling-lesson, this should
-    // be '/falling-lesson/'. Wrong value here = blank page with 404s in console.
-    base: '/REPLACE-WITH-YOUR-REPO-NAME/',
+    base: '/simulation/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

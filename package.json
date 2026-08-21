@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://REPLACE-WITH-YOUR-USERNAME.github.io/REPLACE-WITH-YOUR-REPO-NAME",
+  "homepage": "https://0df19950.github.io/simulation",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
