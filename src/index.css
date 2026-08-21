@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #FBF5DD;
+  --color-cream-card: #FAF2D2;
+  --color-sage: #A6CDC6;
+  --color-sage-light: #D4E8E4;
+  --color-sage-dark: #7CA7A0;
+  --color-deepteal: #16404D;
+  --color-deepteal-soft: #285A6A;
+  --color-deepteal-dark: #0E2B34;
+  --color-gold: #DDA853;
+  --color-gold-hover: #C59340;
+  --color-gold-light: #F4E2BD;
+}
+
+@layer base {
+  :root {
+    --paper: #FBF5DD;
+    --paper-line: #A6CDC6;
+    --ink: #16404D;
+    --ink-soft: #285A6A;
+    --amber: #DDA853;
+    --amber-dark: #C59340;
+    --teal: #A6CDC6;
+    --teal-dark: #16404D;
+    --panel: #FAF2D2;
+    --panel-border: #A6CDC6;
+    --error: #E54B4B;
+    --radius: 8px;
+  }
+
+  body {
+    background-color: #FBF5DD;
+    background-image: 
+      radial-gradient(#A6CDC6 1.2px, transparent 1.2px);
+    background-size: 26px 26px;
+    background-position: 0 0;
+    color: #16404D;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: #16404D;
+    letter-spacing: -0.01em;
+  }
+
+  .font-serif {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+  }
+
+  .font-mono, code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FBF5DD;
+}
+::-webkit-scrollbar-thumb {
+  background: #A6CDC6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #DDA853;
+}
+
+.katex-display {
+  margin: 0.5em 0 !important;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+
+
+
+
