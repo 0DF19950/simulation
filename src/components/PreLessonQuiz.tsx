@@ -5,12 +5,20 @@ interface QuizOption {
   id: string;
   text: string;
 }
-interface QuizQuestion {
+export interface QuizQuestion {
   id: string;
   prompt: string;
   options: QuizOption[];
   correctId: string;
   explanation: string;
+}
+
+interface PreLessonQuizProps {
+  questions?: QuizQuestion[];
+  title?: string;
+  intro?: string;
+  /** One option per row — for long, wordy answer choices. */
+  singleColumn?: boolean;
 }
 
 const QUESTIONS: QuizQuestion[] = [
@@ -50,7 +58,12 @@ const QUESTIONS: QuizQuestion[] = [
   },
 ];
 
-export const PreLessonQuiz: React.FC = () => {
+export const PreLessonQuiz: React.FC<PreLessonQuizProps> = ({
+  questions = QUESTIONS,
+  title = "Before we calculate anything — what's your intuition?",
+  intro = "Answer these without doing any math. There's no scoring — we'll come back to them once the physics makes the answers obvious.",
+  singleColumn = false,
+}) => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
   const select = (qId: string, optId: string) => {
@@ -62,21 +75,19 @@ export const PreLessonQuiz: React.FC = () => {
     <div className="bg-cream-card border border-sage rounded-xl p-5 space-y-4 shadow-xs">
       <h3 className="font-sans font-semibold text-lg text-deepteal flex items-center gap-2">
         <HelpCircle className="w-5 h-5 text-gold-hover" />
-        <span>Before we calculate anything — what's your intuition?</span>
+        <span>{title}</span>
       </h3>
-      <p className="text-sm text-deepteal-soft">
-        Answer these without doing any math. There's no scoring — we'll come back to them once the physics makes the answers obvious.
-      </p>
+      <p className="text-sm text-deepteal-soft">{intro}</p>
 
       <div className="space-y-5">
-        {QUESTIONS.map((q, qi) => {
+        {questions.map((q, qi) => {
           const chosen = answers[q.id];
           return (
             <div key={q.id} className="bg-cream p-3.5 rounded-lg border border-sage/60">
               <p className="text-sm font-sans font-semibold text-deepteal mb-2">
                 {qi + 1}. {q.prompt}
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className={`grid gap-2 ${singleColumn ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
                 {q.options.map((opt) => {
                   const isChosen = chosen === opt.id;
                   const isCorrect = opt.id === q.correctId;

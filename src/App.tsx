@@ -1,139 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { AudienceTier, SimulationParams, TrajectoryPoint } from './types';
+import React, { useEffect, useRef, useState } from 'react';
+import { SimulationParams } from './types';
 import { FallingBallLesson } from './components/FallingBallLesson';
 import { PygameCanvasVisualizer } from './components/PygameCanvasVisualizer';
 import { PythonLabEditor } from './components/PythonLabEditor';
 import { InteractivePlots } from './components/InteractivePlots';
 import { SimulationChallenges } from './components/SimulationChallenges';
 import { PhilomathLabLogo } from './components/PhilomathLabLogo';
-import { exportTrajectoryToCSV, runNumericalSimulation } from './utils/simulationEngine';
+import { LessonTierNav } from './components/LessonTierNav';
+import { LandingPage } from './components/LandingPage';
+import { FallingUGPage } from './components/FallingUGPage';
+import { useFallingLab } from './hooks/useFallingLab';
+import { exportTrajectoryToCSV } from './utils/simulationEngine';
 import { Terminal } from 'lucide-react';
 
-export default function App() {
-  const [activeTier, setActiveTier] = useState<AudienceTier>('highschool');
+const HS_DEFAULTS: SimulationParams = {
+  gravity: 9.81,
+  initialHeight: 50.0,
+  initialVelocity: 0.0,
+  dragCoefficient: 0.0,
+  mass: 1.0,
+  dt: 0.02,
+  method: 'euler',
+};
 
-  const [params, setParams] = useState<SimulationParams>({
-    gravity: 9.81,
-    initialHeight: 50.0,
-    initialVelocity: 0.0,
-    dragCoefficient: 0.0,
-    mass: 1.0,
-    dt: 0.02,
-    method: 'euler',
-  });
-
-  const [codeOverride, setCodeOverride] = useState<string>('');
-  const [points, setPoints] = useState<TrajectoryPoint[]>([]);
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-
-  const [isPyodideReady, setIsPyodideReady] = useState<boolean>(false);
-  const [isExecuting, setIsExecuting] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const pyodideInstanceRef = useRef<any>(null);
+function FallingLessonView() {
+  const lab = useFallingLab(HS_DEFAULTS);
   const labSectionRef = useRef<HTMLDivElement>(null);
-
-  // Load Pyodide (real in-browser Python) in the background
-  useEffect(() => {
-    async function initPyodideRuntime() {
-      try {
-        if ((window as any).loadPyodide) {
-          const pyodide = await (window as any).loadPyodide();
-          pyodideInstanceRef.current = pyodide;
-          setIsPyodideReady(true);
-        }
-      } catch (e) {
-        console.warn('Pyodide runtime background loading deferred to JS solver:', e);
-      }
-    }
-    initPyodideRuntime();
-  }, []);
-
-  // Keep the trajectory in sync with slider/parameter changes
-  useEffect(() => {
-    const trajectory = runNumericalSimulation(params);
-    setPoints(trajectory);
-    setCurrentStepIndex(0);
-  }, [params]);
-
-  const handleRunPythonSimulation = async (customCode: string) => {
-    setErrorMessage('');
-    setIsExecuting(true);
-    setIsPlaying(false);
-
-    try {
-      if (pyodideInstanceRef.current) {
-        const pyodide = pyodideInstanceRef.current;
-        const runnerScript = `
-import json
-
-${customCode}
-
-def __run_sim():
-    y = ${params.initialHeight}
-    v = ${params.initialVelocity}
-    t = 0.0
-    dt = ${params.dt}
-    mass = ${params.mass}
-    g = ${params.gravity}
-    pts = []
-
-    steps = 0
-    while y > -0.01 and steps < 4000:
-        a = acceleration(y, v)
-        ek = 0.5 * mass * v * v
-        ep = mass * g * max(y, 0)
-        pts.append({
-            "t": round(t, 4),
-            "y": round(max(y, 0), 4),
-            "v": round(v, 4),
-            "a": round(float(a), 4),
-            "ek": round(ek, 2),
-            "ep": round(ep, 2),
-            "etotal": round(ek + ep, 2)
-        })
-        if y <= 0 and steps > 0:
-            break
-
-        v += a * dt
-        y += v * dt
-        t += dt
-        steps += 1
-
-    return json.dumps(pts)
-
-__run_sim()
-`;
-        const jsonResult = await pyodide.runPythonAsync(runnerScript);
-        const parsedPoints = JSON.parse(jsonResult);
-        setPoints(parsedPoints);
-        setCurrentStepIndex(0);
-        setIsPlaying(true);
-      } else {
-        const trajectory = runNumericalSimulation(params);
-        setPoints(trajectory);
-        setCurrentStepIndex(0);
-        setIsPlaying(true);
-      }
-    } catch (err: any) {
-      setErrorMessage(err.message || String(err));
-      const trajectory = runNumericalSimulation(params);
-      setPoints(trajectory);
-    } finally {
-      setIsExecuting(false);
-    }
-  };
 
   // From Lesson 1's planet picker: "Load this g into the lab"
   const handleLoadPlanetIntoLab = (g: number, planetName: string) => {
-    setParams((prev) => ({ ...prev, gravity: g }));
+    lab.setParams((prev) => ({ ...prev, gravity: g }));
     const code = `# Loaded from lesson: Free fall on ${planetName}
 def acceleration(y, v):
     g = ${g.toFixed(2)}        # Gravity on ${planetName} (m/s^2)
-    drag = ${params.dragCoefficient.toFixed(2)}     # Air drag coefficient
+    drag = ${lab.params.dragCoefficient.toFixed(2)}     # Air drag coefficient
     return -g - drag * v * abs(v)`;
-    setCodeOverride(code);
+    lab.setCodeOverride(code);
 
     setTimeout(() => {
       labSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -144,14 +46,19 @@ def acceleration(y, v):
     <div className="min-h-screen bg-cream text-deepteal font-sans antialiased selection:bg-gold selection:text-deepteal">
       {/* Minimal header — just the brand, no multi-domain nav */}
       <header className="sticky top-0 z-50 bg-deepteal border-b border-sage/30 backdrop-blur-md shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <PhilomathLabLogo size="md" variant="light" />
-          <button
-            onClick={() => labSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
-            className="hidden sm:inline text-[11px] font-mono text-sage-light/80 hover:text-gold transition-colors"
-          >
-            Jump to Python lab ↓
-          </button>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          <a href="#/" className="shrink-0" aria-label="Back to topics">
+            <PhilomathLabLogo size="md" variant="light" />
+          </a>
+          <div className="flex items-center gap-3 overflow-x-auto">
+            <LessonTierNav active="highschool" />
+            <button
+              onClick={() => labSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
+              className="hidden lg:inline text-[11px] font-mono text-sage-light/80 hover:text-gold transition-colors whitespace-nowrap"
+            >
+              Jump to Python lab ↓
+            </button>
+          </div>
         </div>
       </header>
 
@@ -176,27 +83,16 @@ def acceleration(y, v):
 
           <PythonLabEditor
             activeDomain="classical"
-            activeTier={activeTier}
-            params={params}
-            setParams={setParams}
-            onRunSimulation={handleRunPythonSimulation}
-            onResetParams={() => {
-              setParams({
-                gravity: 9.81,
-                initialHeight: 50.0,
-                initialVelocity: 0.0,
-                dragCoefficient: 0.0,
-                mass: 1.0,
-                dt: 0.02,
-                method: 'euler',
-              });
-              setCodeOverride('');
-            }}
-            isPyodideReady={isPyodideReady}
-            isExecuting={isExecuting}
-            errorMessage={errorMessage}
-            onExportCSV={() => exportTrajectoryToCSV(points)}
-            initialCodeOverride={codeOverride}
+            activeTier="highschool"
+            params={lab.params}
+            setParams={lab.setParams}
+            onRunSimulation={lab.runSimulation}
+            onResetParams={lab.resetParams}
+            isPyodideReady={lab.isPyodideReady}
+            isExecuting={lab.isExecuting}
+            errorMessage={lab.errorMessage}
+            onExportCSV={() => exportTrajectoryToCSV(lab.points)}
+            initialCodeOverride={lab.codeOverride}
           />
 
           <SimulationChallenges />
@@ -204,15 +100,15 @@ def acceleration(y, v):
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <PygameCanvasVisualizer
               domain="classical"
-              params={params}
-              points={points}
-              currentStepIndex={currentStepIndex}
-              setCurrentStepIndex={setCurrentStepIndex}
-              isPlaying={isPlaying}
-              setIsPlaying={setIsPlaying}
-              onReset={() => setCurrentStepIndex(0)}
+              params={lab.params}
+              points={lab.points}
+              currentStepIndex={lab.currentStepIndex}
+              setCurrentStepIndex={lab.setCurrentStepIndex}
+              isPlaying={lab.isPlaying}
+              setIsPlaying={lab.setIsPlaying}
+              onReset={() => lab.setCurrentStepIndex(0)}
             />
-            <InteractivePlots points={points} />
+            <InteractivePlots points={lab.points} />
           </div>
         </div>
       </section>
@@ -221,11 +117,62 @@ def acceleration(y, v):
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <PhilomathLabLogo size="sm" />
-            <span className="text-[11px]">philomathlab.com — Lesson 1 preview</span>
+            <span className="text-[11px]">philomathlab.com — Lesson 1, high school</span>
           </div>
-          <span className="text-[11px]">Real Python, running in your browser via Pyodide.</span>
+          <a href="#/" className="text-[11px] hover:text-gold-hover transition-colors">
+            ← All topics
+          </a>
         </div>
       </footer>
     </div>
   );
+}
+
+/**
+ * Hash-based routing. No router dependency, and deep links keep working on
+ * GitHub Pages, which serves this as a static site under the /simulation/ base.
+ *
+ *   #/                          → landing page
+ *   #/lesson/falling            → Lesson 1, high school
+ *   #/lesson/falling/undergrad  → Lesson 1, undergraduate
+ */
+function useHashRoute(): string {
+  const [route, setRoute] = useState<string>(() => window.location.hash || '#/');
+
+  useEffect(() => {
+    const syncRoute = () => setRoute(window.location.hash || '#/');
+    window.addEventListener('hashchange', syncRoute);
+    return () => window.removeEventListener('hashchange', syncRoute);
+  }, []);
+
+  return route;
+}
+
+type View = 'landing' | 'falling-hs' | 'falling-ug';
+
+function resolveView(route: string): View {
+  // Match the deeper route first — '#/lesson/falling' is a prefix of both.
+  if (route.startsWith('#/lesson/falling/undergrad')) return 'falling-ug';
+  if (route.startsWith('#/lesson/falling')) return 'falling-hs';
+  return 'landing';
+}
+
+const TITLES: Record<View, string> = {
+  landing: 'Philomathlab — Learn simulation itself',
+  'falling-hs': 'Philomathlab — Lesson 1: What is Falling?',
+  'falling-ug': 'Philomathlab — Lesson 1: Falling Body (Undergraduate)',
+};
+
+export default function App() {
+  const view = resolveView(useHashRoute());
+
+  // Only fires when the view actually flips, so in-page anchors are left alone.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = TITLES[view];
+  }, [view]);
+
+  if (view === 'falling-ug') return <FallingUGPage />;
+  if (view === 'falling-hs') return <FallingLessonView />;
+  return <LandingPage />;
 }
