@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, Orbit, Target, Waves } from 'lucide-react';
+import { ArrowDownToLine, Atom, Orbit, Rocket, Target, Waves } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -77,6 +77,21 @@ export const TOPICS: Topic[] = [
     icon: Target,
     tiers: [
       { tier: 'highschool', route: '#/lesson/projectile' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'rocket',
+    title: 'Rocket Launch',
+    domain: 'classical',
+    blurb:
+      'A rocket keeps losing mass while it flies, so F = ma stops being enough. The rocket equation, gravity loss, and why a real launch needs simulation even before you add a gravity turn.',
+    status: 'live',
+    route: '#/lesson/rocket',
+    icon: Rocket,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/rocket' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

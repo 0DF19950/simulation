@@ -10,6 +10,7 @@ import { LessonTierNav } from './components/LessonTierNav';
 import { LandingPage } from './components/LandingPage';
 import { FallingUGPage } from './components/FallingUGPage';
 import { ProjectilePage } from './components/ProjectilePage';
+import { RocketPage } from './components/RocketPage';
 import { OrbitalPage } from './components/OrbitalPage';
 import { useFallingLab } from './hooks/useFallingLab';
 import { exportTrajectoryToCSV } from './utils/simulationEngine';
@@ -138,7 +139,8 @@ def acceleration(y, v):
  *   #/lesson/falling            → Lesson 1, high school
  *   #/lesson/falling/undergrad  → Lesson 1, undergraduate
  *   #/lesson/projectile         → Lesson 2, high school
- *   #/lesson/orbit              → Lesson 3, high school
+ *   #/lesson/rocket             → Lesson 3, high school
+ *   #/lesson/orbit              → Lesson 4, high school
  */
 function useHashRoute(): string {
   const [route, setRoute] = useState<string>(() => window.location.hash || '#/');
@@ -152,13 +154,14 @@ function useHashRoute(): string {
   return route;
 }
 
-type View = 'landing' | 'falling-hs' | 'falling-ug' | 'projectile' | 'orbit';
+type View = 'landing' | 'falling-hs' | 'falling-ug' | 'projectile' | 'rocket' | 'orbit';
 
 function resolveView(route: string): View {
   // Match the deeper route first — '#/lesson/falling' is a prefix of both.
   if (route.startsWith('#/lesson/falling/undergrad')) return 'falling-ug';
   if (route.startsWith('#/lesson/falling')) return 'falling-hs';
   if (route.startsWith('#/lesson/projectile')) return 'projectile';
+  if (route.startsWith('#/lesson/rocket')) return 'rocket';
   if (route.startsWith('#/lesson/orbit')) return 'orbit';
   return 'landing';
 }
@@ -168,7 +171,8 @@ const TITLES: Record<View, string> = {
   'falling-hs': 'Philomathlab — Lesson 1: What is Falling?',
   'falling-ug': 'Philomathlab — Lesson 1: Falling Body (Undergraduate)',
   projectile: 'Philomathlab — Lesson 2: Projectile Motion',
-  orbit: 'Philomathlab — Lesson 3: Orbital Motion',
+  rocket: 'Philomathlab — Lesson 3: Rocket Launch',
+  orbit: 'Philomathlab — Lesson 4: Orbital Motion',
 };
 
 export default function App() {
@@ -183,6 +187,7 @@ export default function App() {
   if (view === 'falling-ug') return <FallingUGPage />;
   if (view === 'falling-hs') return <FallingLessonView />;
   if (view === 'projectile') return <ProjectilePage />;
+  if (view === 'rocket') return <RocketPage />;
   if (view === 'orbit') return <OrbitalPage />;
   return <LandingPage />;
 }

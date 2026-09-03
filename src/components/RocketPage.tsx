@@ -2,32 +2,19 @@ import React, { useRef } from 'react';
 import { Terminal } from 'lucide-react';
 import { PhilomathLabLogo } from './PhilomathLabLogo';
 import { LessonTierNav } from './LessonTierNav';
-import { OrbitalLesson, OrbitalLessonClosing } from './OrbitalLesson';
-import { OrbitalPythonLab } from './OrbitalPythonLab';
+import { RocketLesson, RocketLessonClosing } from './RocketLesson';
+import { RocketPythonLab } from './RocketPythonLab';
 import { SimulationChallenges, Challenge } from './SimulationChallenges';
 
-const ORBIT_CHALLENGES: Challenge[] = [
-  {
-    label: 'Circular orbit',
-    hint: 'Create a satellite that stays in a circular orbit. Predict the trajectory before you run it.',
-  },
-  { label: 'Lower velocity', hint: 'Reduce the initial velocity. What happens?' },
-  { label: 'Higher velocity', hint: 'Increase the initial velocity. What changes?' },
-  {
-    label: 'Zero gravity',
-    hint: 'Set G = 0. What trajectory do you expect before you look?',
-  },
-  {
-    label: 'Two bodies',
-    hint: "Add the Moon's gravitational influence. Does the orbit remain perfectly circular?",
-  },
-  {
-    label: 'Perturbation',
-    hint: 'Give the satellite a small change in velocity. Does it return to the original orbit, or settle into a new one?',
-  },
+const ROCKET_CHALLENGES: Challenge[] = [
+  { label: 'Straight-up launch', hint: 'No gravity turn. Predict the burnout speed before you run it — Part 3 gives you the closed form to check against.' },
+  { label: 'Add a gravity turn', hint: 'Tip the rocket partway through the burn. Watch the trajectory become a two-direction problem, like Lesson 2.' },
+  { label: 'Double the fuel mass', hint: "Increase the mass ratio without changing the engine. Does Δv double too? Check against Part 3's formula." },
+  { label: 'Add a second stage', hint: 'In the code below, drop the burnt-out first stage mass partway through and keep burning with a fresh burn rate.' },
+  { label: 'Launch from Mars', hint: 'Set g = 3.71 in the code below. Same rocket, same fuel — how much farther does it get?' },
 ];
 
-export const OrbitalPage: React.FC = () => {
+export const RocketPage: React.FC = () => {
   const labSectionRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -38,7 +25,7 @@ export const OrbitalPage: React.FC = () => {
             <PhilomathLabLogo size="md" variant="light" />
           </a>
           <div className="flex items-center gap-3 overflow-x-auto">
-            <LessonTierNav topicId="orbit" active="highschool" />
+            <LessonTierNav topicId="rocket" active="highschool" />
             <button
               onClick={() => labSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
               className="hidden lg:inline text-[11px] font-mono text-sage-light/80 hover:text-gold transition-colors whitespace-nowrap"
@@ -49,7 +36,7 @@ export const OrbitalPage: React.FC = () => {
         </div>
       </header>
 
-      <OrbitalLesson />
+      <RocketLesson />
 
       <section ref={labSectionRef} className="py-12 bg-cream border-b border-sage/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
@@ -64,19 +51,19 @@ export const OrbitalPage: React.FC = () => {
               </h2>
             </div>
             <p className="text-xs font-mono text-deepteal-soft">
-              Two components in, two components out — the vector version of Lesson 1's lab.
+              Now with mass in the denominator — the loop from Part 6, running for real.
             </p>
           </div>
 
-          <OrbitalPythonLab />
+          <RocketPythonLab />
 
           <SimulationChallenges
-            challenges={ORBIT_CHALLENGES}
+            challenges={ROCKET_CHALLENGES}
             title="Simulation challenges"
-            intro="Predict each outcome before running it. The simulator's presets cover the first four; the last two are yours to set up."
+            intro="Predict the outcome before running each one, then edit acceleration(t, m, vx, vy) above to check yourself."
           />
 
-          <OrbitalLessonClosing />
+          <RocketLessonClosing />
         </div>
       </section>
 
@@ -84,7 +71,7 @@ export const OrbitalPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <PhilomathLabLogo size="sm" />
-            <span className="text-[11px]">philomathlab.com — Lesson 4, high school</span>
+            <span className="text-[11px]">philomathlab.com — Lesson 3, high school</span>
           </div>
           <a href="#/" className="text-[11px] hover:text-gold-hover transition-colors">
             ← All topics

@@ -105,7 +105,7 @@ export const OrbitalLesson: React.FC = () => (
       <div className="max-w-3xl space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <Orbit className="w-4 h-4 text-gold-hover" />
-          <span>Lesson 3 · High School</span>
+          <span>Lesson 4 · High School</span>
         </div>
         <h2 className="text-2xl sm:text-3xl font-sans font-bold text-deepteal">
           Orbital motion — when do we need simulation?
