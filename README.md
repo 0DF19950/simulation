@@ -10,8 +10,12 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Currently two topics are built: the falling body at high-school and
-undergraduate depth, and orbital motion at high-school depth.
+Six topics are built so far, all at high-school depth (falling body also ships
+at undergraduate depth): falling bodies, projectile motion, rocket launches,
+orbital motion, the double pendulum, and wave interference. Each one follows
+the same arc — build intuition, derive an exact formula, find the case where
+that formula stops applying, then simulate — and each one ends in a real
+Python lab.
 
 ## What's here
 
@@ -20,6 +24,16 @@ undergraduate depth, and orbital motion at high-school depth.
 The catalogue of topics, each card carrying its domain, a blurb, and links to
 whichever depths exist. Topics that are only planned render dimmed rather than
 pretending to be clickable.
+
+### Instrument View widgets
+
+Every lesson opens with a small live-telemetry panel next to the intro text —
+a real simulation already running, before any theory, not the full lab below.
+Press Run and watch the numbers move: it's the same engine and the same
+canvas renderer the lesson's own interactive simulator uses further down, just
+wrapped in a compact instrument-panel chrome (canvas, four telemetry rows,
+Run/Reset). It exists purely to make "why should I care" concrete in the first
+five seconds on the page.
 
 ### Lesson 1 — What is Falling? (High School)
 
@@ -64,7 +78,57 @@ by hand:
 - **Terminal velocity explorer** — sliders for m, C_d, A, and ρ driving both
   the predicted `v_t` and a live velocity curve against the vacuum case.
 
-### Lesson 2 — Orbital Motion (High School)
+### Lesson 2 — Projectile Motion (High School)
+
+The falling body gains a second, independent direction. Seven parts, with a
+contents rail:
+
+- **Two motions at once** — horizontal velocity never changes; vertical motion
+  is exactly Lesson 1 again.
+- **Splitting the launch** — `v₀ₓ = v₀cos θ`, `v₀ᵧ = v₀sin θ`.
+- **Building the mathematical model** — `x(t)` and `y(t)` derived from the
+  split components, with a worked example.
+- **Different launch angles** — why 30° and 60° give the same range, and what
+  45° has to do with it.
+- **Why equations eventually fail** — quadratic drag couples x and y back
+  together, so the closed form stops applying.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Projectile simulator** — launch speed, angle, Earth/Moon/Mars gravity, air
+  resistance, and wind, with Euler vs. RK4. With no drag, the simulator
+  measures the peak range and checks it against the closed-form formula from
+  Part 3 — a real check, not a label, so it correctly stops matching the
+  moment drag is switched on.
+- **Python lab** — `acceleration(x, y, vx, vy)` returning `(ax, ay)`.
+
+### Lesson 3 — Rocket Launch (High School)
+
+The object's own mass stops being constant. Seven parts, with a contents rail:
+
+- **Forces on a rocket** — thrust, weight, and drag, and why a changing mass
+  breaks `F = ma`.
+- **The changing-mass problem** — `F = d(mv)/dt` in place of `F = ma`.
+- **Building the mathematical model** — the thrust equation
+  `F = vₑ·(dm/dt)`, `a = F/m − g` (mass in the denominator — this is why a
+  rocket appears to leap forward near the end of its burn), and the
+  Tsiolkovsky rocket equation `Δv = vₑ·ln(m₀/m_f)`.
+- **Different rockets** — solid, kerosene/oxygen, hydrogen/oxygen, and ion
+  engines, by typical exhaust velocity.
+- **Why equations eventually fail** — gravity loss, the gravity turn (a
+  two-direction problem again, now with shrinking mass on top), changing air
+  density, and staging.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Rocket simulator** — mass ratio, burn time, engine presets,
+  Earth/Mars gravity, a gravity-turn toggle, and drag. For a straight-up,
+  drag-free burn it compares the simulated burnout speed against the exact
+  closed form (Tsiolkovsky's Δv minus the gravity lost while burning) and
+  reports how much speed gravity actually cost.
+- **Python lab** — `acceleration(t, m, vx, vy)` returning `(ax, ay)`; `t` and
+  `m` are supplied by the loop since a rocket's physics genuinely depends on
+  both.
+
+### Lesson 4 — Orbital Motion (High School)
 
 Throw something sideways fast enough and it never lands. Ten parts, with a
 contents rail:
@@ -84,8 +148,6 @@ contents rail:
 - **Circular vs. elliptical**, **why simulation matters more**, and
   **real-world applications**.
 
-Two interactives:
-
 - **Orbit simulator** — set an altitude and a starting speed and watch gravity
   do the rest. Presets cover the lesson's four prediction cases; the readout
   reports periapsis, apoapsis, eccentricity and period, and classifies the
@@ -95,20 +157,88 @@ Two interactives:
   which is what makes explicit Euler visibly spiral outward.
 - **Python lab in two dimensions** — see below.
 
+### Lesson 5 — Double Pendulum (High School)
+
+The first topic in the course with no closed-form solution at all, even in
+its cleanest, frictionless form. Seven parts, with a contents rail:
+
+- **One arm vs. two** — the single pendulum's clean, repeating
+  `θ(t) = θ₀·cos(√(g/L)·t)`, kept as a point of comparison.
+- **Why the second arm changes everything** — each arm is simultaneously a
+  cause and a result of the other's motion.
+- **Building the mathematical model** — the coupled, nonlinear equations
+  `α₁ = f₁(θ₁, θ₂, ω₁, ω₂)`, `α₂ = f₂(θ₁, θ₂, ω₁, ω₂)` — exact, but with no
+  known way to untangle them into closed-form functions of time.
+- **Sensitivity to starting conditions** — the table from the source lesson,
+  made concrete rather than asserted (see the simulator below).
+- **Chaos is not the same as randomness** — deterministic chaos: identical
+  starting conditions always produce identical motion; the problem is that no
+  two *measured* starting conditions are ever truly identical.
+- **How a simulation thinks**, and **real-world applications** — weather,
+  legged-robot control, structural sway, ecosystem dynamics, turbulence.
+
+- **Double pendulum simulator** — its central feature releases a second
+  pendulum just 0.5° away from the first and reports how far apart their
+  lower bobs end up. There's no formula left to validate against, so the
+  simulator's only self-check is mechanical energy conservation (frictionless,
+  so it should hold exactly); RK4 holds steady, Euler visibly drifts.
+- **Python lab** — `angular_acceleration(theta1, theta2, omega1, omega2)`
+  returning `(alpha1, alpha2)`. Unlike the other labs, `L1`, `L2`, `m1`, `m2`
+  are editable constants in the same code block rather than fixed by the
+  shell, since two of the challenges are specifically about changing them.
+
+### Lesson 6 — Wave Interference (High School)
+
+A structurally different engine from every lesson before it: a traveling
+wave's value at a point is known in closed form, so nothing here gets
+integrated over time — the field is evaluated directly. What makes it a
+*simulation* is scale: many sources, their reflections, and every point on a
+whole grid, summed together every frame. Seven parts, with a contents rail:
+
+- **Describing a wave** — amplitude, wavelength, frequency, and
+  `y(t) = A·sin(2πft + φ)`.
+- **The principle of superposition** — `y_total(t) = y₁(t) + y₂(t)`, no
+  further physics required.
+- **Building the mathematical model** — two identical sources combine to the
+  exact, closed-form `y_total(t) = 2A·cos(Δφ/2)·sin(2πft + Δφ/2)`.
+- **Different phase differences** — constructive at Δφ = 0, destructive at
+  Δφ = 180°, partial in between.
+- **Why equations eventually fail** — many sources across an entire surface,
+  plus reflecting boundaries, defeat any single formula.
+- **How a simulation thinks**, and **real-world applications** — noise
+  cancellation, room acoustics, antenna arrays, gravitational-wave
+  interferometers, seismic imaging.
+
+- **Wave interference simulator** — a live 2D heatmap (not a trajectory
+  canvas), with phase difference, amplitude, wavelength, a third source, a
+  reflecting wall, and a frequency mismatch. With two identical sources and no
+  wall, it measures the actual peak amplitude at a probe point equidistant
+  from both sources by sampling across several seconds — not just applying
+  the formula — and checks it against Part 3's closed form.
+- **Python lab** — no time-stepping loop; a `SOURCES` list and
+  `total_displacement(x, y, t, sources)` evaluated once across an 80×80 grid,
+  matching the lesson's own description of the algorithm rather than forcing
+  an ODE shape onto a problem that doesn't have one.
+
 ### The Python lab
 
-Edit the `acceleration(y, v)` function and run it. Python executes for real,
-in the browser, via [Pyodide](https://pyodide.org/) (WebAssembly) — no install,
-no backend server. A synced canvas visualizer and live charts (height,
-velocity, energy) update from the actual computed trajectory. The lab appears
-on every lesson, opening on parameters appropriate to the depth: no drag and
-explicit Euler for falling-body high school, quadratic drag and RK4 for
-undergraduate.
+Edit the acceleration (or, for Lesson 6, the superposition) function and run
+it. Python executes for real, in the browser, via
+[Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
+server. Python errors come back as real tracebacks pointing at the line you
+wrote. The function signature changes with what the physics actually needs:
 
-Lesson 2 needs a different shape, because an orbit is a vector problem. Its lab
-asks for `acceleration(x, y, vx, vy)` returning `(ax, ay)`, and the RK4
-integrator calls that function at every stage. Python errors come back as real
-tracebacks pointing at the line you wrote.
+| Lesson | Signature |
+| --- | --- |
+| 1 — Falling | `acceleration(y, v)` |
+| 2 — Projectile | `acceleration(x, y, vx, vy)` |
+| 3 — Rocket | `acceleration(t, m, vx, vy)` |
+| 4 — Orbital | `acceleration(x, y, vx, vy)` |
+| 5 — Double pendulum | `angular_acceleration(theta1, theta2, omega1, omega2)` |
+| 6 — Wave interference | `total_displacement(x, y, t, sources)` |
+
+Lesson 1's lab also carries a synced canvas visualizer and live charts
+(height, velocity, energy) alongside the code editor.
 
 ## Routes
 
@@ -121,7 +251,11 @@ redirect.
 | `#/` | Landing page |
 | `#/lesson/falling` | Lesson 1, high school |
 | `#/lesson/falling/undergrad` | Lesson 1, undergraduate |
-| `#/lesson/orbit` | Lesson 2, high school |
+| `#/lesson/projectile` | Lesson 2, high school |
+| `#/lesson/rocket` | Lesson 3, high school |
+| `#/lesson/orbit` | Lesson 4, high school |
+| `#/lesson/double-pendulum` | Lesson 5, high school |
+| `#/lesson/wave-interference` | Lesson 6, high school |
 
 ## Adding a topic
 
@@ -179,45 +313,81 @@ the site and publishes it to GitHub Pages. `npm run deploy` publishes from a
 working copy instead, via the `gh-pages` package.
 
 The `base` path in `vite.config.ts` is `/simulation/` and must match the
-repository name for the GitHub Pages URL to resolve.
+repository name for the GitHub Pages URL to resolve. Any asset referenced by a
+literal string (an `<img src="/…">`, for instance) needs to go through
+`import.meta.env.BASE_URL` instead, or it will 404 the moment the site is
+served from a subpath rather than a domain root.
 
 ## Project structure
 
 ```
 src/
-  App.tsx                    Hash router + the high-school lesson page
-  data/topics.ts             The topic catalogue (edit this to add topics)
-  hooks/useFallingLab.ts     Shared lab state: params, trajectory, Pyodide
+  App.tsx                       Hash router + the high-school falling-body page
+  vite-env.d.ts                 Vite's ambient types (import.meta.env, etc.)
+  data/topics.ts                The topic catalogue (edit this to add topics)
+  hooks/useFallingLab.ts        Shared lab state: params, trajectory, Pyodide
   utils/
-    simulationEngine.ts      1D falling-body integrator
-    orbitalEngine.ts         2D orbital integrator (RK4/Euler, Moon, drift)
+    simulationEngine.ts         1D falling-body integrator
+    projectileEngine.ts         2D projectile integrator (Euler/RK4, drag, wind)
+    rocketEngine.ts             Variable-mass 2D integrator (thrust, gravity turn)
+    orbitalEngine.ts            2D orbital integrator (RK4/Euler, Moon, drift)
+    doublePendulumEngine.ts     Coupled nonlinear pendulum integrator
+    waveInterferenceEngine.ts   Direct field evaluation (no time integration)
   components/
-    LandingPage.tsx          Topic catalogue
-    LessonPrimitives.tsx     Card / equation / symbol-table / predict blocks
-    LessonTierNav.tsx        Depth switcher, driven by data/topics.ts
-    FallingBallLesson.tsx    Lesson 1 body, high school
-    FallingLessonUG.tsx      Lesson 1 body, undergraduate
-    FallingUGPage.tsx        Lesson 1 page shell, undergraduate
-    NumericalExperiment.tsx  Convergence + method comparison (interactive)
+    LandingPage.tsx             Topic catalogue
+    LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
+    LessonTierNav.tsx           Depth switcher, driven by data/topics.ts
+    PreLessonQuiz.tsx           Shared "before you calculate" quiz component
+    SimulationChallenges.tsx    Shared challenge-list component
+    FallingBallLesson.tsx       Lesson 1 body, high school
+    FallingInstrumentWidget.tsx Lesson 1's instrument-view widget
+    FallingLessonUG.tsx         Lesson 1 body, undergraduate
+    FallingUGPage.tsx           Lesson 1 page shell, undergraduate
+    NumericalExperiment.tsx     Convergence + method comparison (interactive)
     TerminalVelocityExplorer.tsx
-    OrbitalLesson.tsx        Lesson 2 body
-    OrbitalPage.tsx          Lesson 2 page shell
-    OrbitSimulator.tsx       Interactive orbit explorer
-    OrbitCanvas.tsx          Earth-centred trajectory canvas (shared)
-    OrbitalPythonLab.tsx     2D Pyodide code lab
-    PythonLabEditor.tsx      1D Pyodide code lab
+    ProjectileLesson.tsx        Lesson 2 body
+    ProjectilePage.tsx          Lesson 2 page shell
+    ProjectileSimulator.tsx     Interactive projectile explorer
+    ProjectileCanvas.tsx        Ground-based trajectory canvas (shared with Rocket)
+    ProjectilePythonLab.tsx     2D Pyodide code lab
+    ProjectileInstrumentWidget.tsx
+    RocketLesson.tsx            Lesson 3 body
+    RocketPage.tsx              Lesson 3 page shell
+    RocketSimulator.tsx         Interactive rocket-launch explorer
+    RocketPythonLab.tsx         Variable-mass Pyodide code lab
+    RocketInstrumentWidget.tsx
+    OrbitalLesson.tsx           Lesson 4 body
+    OrbitalPage.tsx             Lesson 4 page shell
+    OrbitSimulator.tsx          Interactive orbit explorer
+    OrbitCanvas.tsx             Earth-centred trajectory canvas (shared)
+    OrbitalPythonLab.tsx        2D Pyodide code lab
+    OrbitalInstrumentWidget.tsx
+    DoublePendulumLesson.tsx    Lesson 5 body
+    DoublePendulumPage.tsx      Lesson 5 page shell
+    DoublePendulumSimulator.tsx Interactive chaos/sensitivity explorer
+    DoublePendulumCanvas.tsx    Pivot-centred rendering with twin-pendulum overlay
+    DoublePendulumPythonLab.tsx Pyodide code lab
+    DoublePendulumInstrumentWidget.tsx
+    WaveInterferenceLesson.tsx  Lesson 6 body
+    WaveInterferencePage.tsx    Lesson 6 page shell
+    WaveInterferenceSimulator.tsx  Interactive interference-pattern explorer
+    WaveFieldCanvas.tsx         2D heatmap renderer (shared)
+    WaveInterferencePythonLab.tsx  Pyodide code lab (single-snapshot, no time loop)
+    WaveInterferenceInstrumentWidget.tsx
+    PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
 
 ## Stack
 
 React 19 + TypeScript + Vite + Tailwind CSS v4, with Pyodide for real
-in-browser Python execution, KaTeX for equations, and Recharts for the live
-plots.
+in-browser Python execution, KaTeX for equations, and Recharts for Lesson 1's
+live plots.
 
 ## Status
 
-Early prototype. Lesson 1 (falling bodies) exists at high-school and
-undergraduate depth, and Lesson 2 (orbital motion) at high-school depth. The
-researcher depth, the undergraduate orbital lesson, and the remaining topics
-are still placeholders on the landing page. Feedback welcome.
+Early prototype. Six topics are live at high-school depth (falling bodies
+also ships at undergraduate depth). The researcher depth, the undergraduate
+depth for lessons 2–6, and the remaining topics on the landing page
+(oscillations & waves as a general topic, quantum motion) are still
+placeholders. Feedback welcome.
