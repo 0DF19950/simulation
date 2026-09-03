@@ -68,8 +68,8 @@ export const RocketInstrumentWidget: React.FC = () => {
   };
 
   return (
-    <div className="bg-deepteal text-cream border border-sage/40 rounded-xl p-5 shadow-2xl relative">
-      <div className="flex items-center justify-between pb-3 mb-4 border-b border-sage/30">
+    <div className="bg-deepteal text-cream border border-sage/40 rounded-xl p-6 shadow-2xl relative h-full flex flex-col">
+      <div className="flex items-center justify-between pb-3 mb-5 border-b border-sage/30">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-gold animate-pulse" />
           <span className="font-mono text-xs font-bold text-cream uppercase tracking-wider">
@@ -81,9 +81,9 @@ export const RocketInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 items-center">
+      <div className="grid grid-cols-12 gap-5 items-center flex-1">
         <div className="col-span-5 flex justify-center">
-          <div className="w-full max-w-[130px]">
+          <div className="w-full max-w-[190px]">
             <ProjectileCanvas
               points={points}
               maxRange={maxRange}
@@ -94,31 +94,31 @@ export const RocketInstrumentWidget: React.FC = () => {
           </div>
         </div>
 
-        <div className="col-span-7 space-y-2.5 font-mono text-xs">
-          <div className="flex justify-between items-center pb-1.5 border-b border-sage/30">
+        <div className="col-span-7 space-y-4 font-mono text-sm">
+          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
             <span className="text-sage-light">t (time):</span>
             <span className="font-bold text-cream">{current?.t.toFixed(2)} s</span>
           </div>
-          <div className="flex justify-between items-center pb-1.5 border-b border-sage/30">
+          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
             <span className="text-sage-light">altitude (y):</span>
             <span className="font-bold text-gold">{current?.y.toFixed(1)} m</span>
           </div>
-          <div className="flex justify-between items-center pb-1.5 border-b border-sage/30">
+          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
             <span className="text-sage-light">speed:</span>
             <span className="font-bold text-cream">{current?.speed.toFixed(1)} m/s</span>
           </div>
-          <div className="flex justify-between items-center pb-1.5 border-b border-sage/30">
+          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
             <span className="text-sage-light">mass:</span>
             <span className="font-bold text-sage-light">{current?.mass.toFixed(1)} kg</span>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mt-4 pt-3 border-t border-sage/30">
+      <div className="flex items-center gap-2 mt-5 pt-4 border-t border-sage/30">
         <button
           onClick={startSimulation}
           disabled={isRunning}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded font-mono text-xs font-bold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded font-mono text-xs font-bold transition-all ${
             isRunning
               ? 'bg-deepteal-dark text-sage/50 cursor-not-allowed'
               : 'bg-gold hover:bg-gold-hover text-deepteal shadow-sm'
@@ -129,7 +129,7 @@ export const RocketInstrumentWidget: React.FC = () => {
         </button>
         <button
           onClick={resetSimulation}
-          className="flex items-center justify-center gap-1.5 py-2 px-3 bg-deepteal-dark hover:bg-deepteal-soft text-cream rounded border border-sage/30 font-mono text-xs transition-all"
+          className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-deepteal-dark hover:bg-deepteal-soft text-cream rounded border border-sage/30 font-mono text-xs transition-all"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Reset</span>

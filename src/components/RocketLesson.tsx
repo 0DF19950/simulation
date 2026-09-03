@@ -103,8 +103,8 @@ export const RocketLesson: React.FC = () => (
           Rocket launch — when do we need simulation?
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <div className="lg:col-span-7 space-y-3">
             <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
               <p className="mb-2">
                 Imagine standing at a launch pad, watching a rocket ignite. It lifts off the
@@ -120,24 +120,23 @@ export const RocketLesson: React.FC = () => (
               </ul>
               <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
             </div>
+            <div className="bg-cream-card border border-sage rounded-xl p-5">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
+                Learning goals
+              </p>
+              <ul className="space-y-1 text-sm text-deepteal-soft">
+                {GOALS.map((g) => (
+                  <li key={g} className="flex gap-2">
+                    <span className="text-gold-hover shrink-0">·</span>
+                    <span>{g}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div className="lg:col-span-5">
             <RocketInstrumentWidget />
           </div>
-        </div>
-
-        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
-          <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
-            Learning goals
-          </p>
-          <ul className="space-y-1 text-sm text-deepteal-soft">
-            {GOALS.map((g) => (
-              <li key={g} className="flex gap-2">
-                <span className="text-gold-hover shrink-0">·</span>
-                <span>{g}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
 
