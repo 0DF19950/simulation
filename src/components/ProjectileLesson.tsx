@@ -4,6 +4,7 @@ import { MathFormula } from './MathFormula';
 import { Card, Eq, Predict, SymbolTable } from './LessonPrimitives';
 import { PreLessonQuiz, QuizQuestion } from './PreLessonQuiz';
 import { ProjectileSimulator } from './ProjectileSimulator';
+import { ProjectileInstrumentWidget } from './ProjectileInstrumentWidget';
 
 const PROJECTILE_QUESTIONS: QuizQuestion[] = [
   {
@@ -90,7 +91,7 @@ export const ProjectileLesson: React.FC = () => (
   <section className="py-12 bg-cream border-b border-sage/40">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Lesson header */}
-      <div className="max-w-3xl space-y-4 mb-10">
+      <div className="space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <Target className="w-4 h-4 text-gold-hover" />
           <span>Lesson 2 · High School</span>
@@ -99,23 +100,30 @@ export const ProjectileLesson: React.FC = () => (
           Projectile motion — when do we need simulation?
         </h2>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-          <p className="mb-2">
-            Imagine standing on the ground and throwing a ball forward, at an angle, as hard as you
-            can. The ball leaves your hand, curves through the air, and lands somewhere ahead of
-            you. Simple enough — until someone asks:
-          </p>
-          <ul className="list-disc list-inside space-y-0.5 mb-2">
-            <li>How far will it travel before landing?</li>
-            <li>How high will it go?</li>
-            <li>What angle gives the longest distance?</li>
-            <li>What if you threw it harder?</li>
-            <li>What if there was air resistance?</li>
-          </ul>
-          <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine standing on the ground and throwing a ball forward, at an angle, as hard as
+                you can. The ball leaves your hand, curves through the air, and lands somewhere
+                ahead of you. Simple enough — until someone asks:
+              </p>
+              <ul className="list-disc list-inside space-y-0.5 mb-2">
+                <li>How far will it travel before landing?</li>
+                <li>How high will it go?</li>
+                <li>What angle gives the longest distance?</li>
+                <li>What if you threw it harder?</li>
+                <li>What if there was air resistance?</li>
+              </ul>
+              <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <ProjectileInstrumentWidget />
+          </div>
         </div>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5">
+        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
             Learning goals
           </p>

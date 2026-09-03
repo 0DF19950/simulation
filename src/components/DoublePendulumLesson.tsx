@@ -4,6 +4,7 @@ import { MathFormula } from './MathFormula';
 import { Card, Eq, Predict, SymbolTable } from './LessonPrimitives';
 import { PreLessonQuiz, QuizQuestion } from './PreLessonQuiz';
 import { DoublePendulumSimulator } from './DoublePendulumSimulator';
+import { DoublePendulumInstrumentWidget } from './DoublePendulumInstrumentWidget';
 
 const PENDULUM_QUESTIONS: QuizQuestion[] = [
   {
@@ -91,7 +92,7 @@ export const DoublePendulumLesson: React.FC = () => (
   <section className="py-12 bg-cream border-b border-sage/40">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Lesson header */}
-      <div className="max-w-3xl space-y-4 mb-10">
+      <div className="space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <Shuffle className="w-4 h-4 text-gold-hover" />
           <span>Lesson 5 · High School</span>
@@ -100,23 +101,31 @@ export const DoublePendulumLesson: React.FC = () => (
           Double pendulum — when do we need simulation?
         </h2>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-          <p className="mb-2">
-            Imagine a rod hanging from a fixed point, with a second rod attached to the bottom of
-            the first. You lift it slightly and let go. It swings. At first it looks almost
-            predictable, like a normal pendulum. Then it starts to tumble, flip, and swirl in ways
-            that don't seem to repeat.
-          </p>
-          <p className="font-bold text-deepteal mb-2">Suddenly, the problem becomes more interesting.</p>
-          <p>
-            In this lesson, you'll meet a system that finally breaks the pattern of every lesson
-            before it: even in its simplest, cleanest form — no air resistance, no friction, no
-            extra bodies — a double pendulum still has no exact formula for where it will be in the
-            future. This is where simulation stops being a convenience and becomes the only option.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine a rod hanging from a fixed point, with a second rod attached to the bottom
+                of the first. You lift it slightly and let go. It swings. At first it looks almost
+                predictable, like a normal pendulum. Then it starts to tumble, flip, and swirl in
+                ways that don't seem to repeat.
+              </p>
+              <p className="font-bold text-deepteal mb-2">Suddenly, the problem becomes more interesting.</p>
+              <p>
+                In this lesson, you'll meet a system that finally breaks the pattern of every
+                lesson before it: even in its simplest, cleanest form — no air resistance, no
+                friction, no extra bodies — a double pendulum still has no exact formula for where
+                it will be in the future. This is where simulation stops being a convenience and
+                becomes the only option.
+              </p>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <DoublePendulumInstrumentWidget />
+          </div>
         </div>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5">
+        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
             Learning goals
           </p>

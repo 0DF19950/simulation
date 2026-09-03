@@ -4,6 +4,7 @@ import { MathFormula } from './MathFormula';
 import { Card, Eq, Predict, SymbolTable } from './LessonPrimitives';
 import { PreLessonQuiz, QuizQuestion } from './PreLessonQuiz';
 import { WaveInterferenceSimulator } from './WaveInterferenceSimulator';
+import { WaveInterferenceInstrumentWidget } from './WaveInterferenceInstrumentWidget';
 
 const WAVE_QUESTIONS: QuizQuestion[] = [
   {
@@ -91,7 +92,7 @@ export const WaveInterferenceLesson: React.FC = () => (
   <section className="py-12 bg-cream border-b border-sage/40">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Lesson header */}
-      <div className="max-w-3xl space-y-4 mb-10">
+      <div className="space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <AudioWaveform className="w-4 h-4 text-gold-hover" />
           <span>Lesson 6 · High School</span>
@@ -100,24 +101,31 @@ export const WaveInterferenceLesson: React.FC = () => (
           Wave interference — when do we need simulation?
         </h2>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-          <p className="mb-2">
-            Imagine dropping two pebbles into a still pond at the same time, a short distance apart.
-            Two sets of ripples spread outward. Where they cross, something strange happens: in
-            some spots the water surges higher, in others it goes almost flat. Simple enough to
-            watch — until someone asks:
-          </p>
-          <ul className="list-disc list-inside space-y-0.5 mb-2">
-            <li>Why do the ripples add up in some places and cancel in others?</li>
-            <li>Can you predict exactly where the water will be calm before it happens?</li>
-            <li>What if you dropped three pebbles instead of two?</li>
-            <li>What if the two pebbles didn't drop at exactly the same moment?</li>
-            <li>What if the pond had walls that reflected the ripples back?</li>
-          </ul>
-          <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine dropping two pebbles into a still pond at the same time, a short distance
+                apart. Two sets of ripples spread outward. Where they cross, something strange
+                happens: in some spots the water surges higher, in others it goes almost flat.
+                Simple enough to watch — until someone asks:
+              </p>
+              <ul className="list-disc list-inside space-y-0.5 mb-2">
+                <li>Why do the ripples add up in some places and cancel in others?</li>
+                <li>Can you predict exactly where the water will be calm before it happens?</li>
+                <li>What if you dropped three pebbles instead of two?</li>
+                <li>What if the two pebbles didn't drop at exactly the same moment?</li>
+                <li>What if the pond had walls that reflected the ripples back?</li>
+              </ul>
+              <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <WaveInterferenceInstrumentWidget />
+          </div>
         </div>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5">
+        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
             Learning goals
           </p>

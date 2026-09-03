@@ -4,6 +4,7 @@ import { MathFormula } from './MathFormula';
 import { Card, Eq, Predict, SymbolTable } from './LessonPrimitives';
 import { PreLessonQuiz, QuizQuestion } from './PreLessonQuiz';
 import { RocketSimulator } from './RocketSimulator';
+import { RocketInstrumentWidget } from './RocketInstrumentWidget';
 
 const ROCKET_QUESTIONS: QuizQuestion[] = [
   {
@@ -93,7 +94,7 @@ export const RocketLesson: React.FC = () => (
   <section className="py-12 bg-cream border-b border-sage/40">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Lesson header */}
-      <div className="max-w-3xl space-y-4 mb-10">
+      <div className="space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <Rocket className="w-4 h-4 text-gold-hover" />
           <span>Lesson 3 · High School</span>
@@ -102,22 +103,30 @@ export const RocketLesson: React.FC = () => (
           Rocket launch — when do we need simulation?
         </h2>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-          <p className="mb-2">
-            Imagine standing at a launch pad, watching a rocket ignite. It lifts off the ground. It
-            gets faster and faster the longer it burns. Simple enough — until someone asks:
-          </p>
-          <ul className="list-disc list-inside space-y-0.5 mb-2">
-            <li>Why does the rocket seem to accelerate faster near the end of its burn?</li>
-            <li>How fast will it be moving when the fuel runs out?</li>
-            <li>What if the rocket carried more fuel, but also weighed more because of it?</li>
-            <li>What if the rocket tips slightly as it climbs?</li>
-            <li>What if the air gets thinner as it rises?</li>
-          </ul>
-          <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine standing at a launch pad, watching a rocket ignite. It lifts off the
+                ground. It gets faster and faster the longer it burns. Simple enough — until
+                someone asks:
+              </p>
+              <ul className="list-disc list-inside space-y-0.5 mb-2">
+                <li>Why does the rocket seem to accelerate faster near the end of its burn?</li>
+                <li>How fast will it be moving when the fuel runs out?</li>
+                <li>What if the rocket carried more fuel, but also weighed more because of it?</li>
+                <li>What if the rocket tips slightly as it climbs?</li>
+                <li>What if the air gets thinner as it rises?</li>
+              </ul>
+              <p className="font-bold text-deepteal">Suddenly, the problem becomes more interesting.</p>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <RocketInstrumentWidget />
+          </div>
         </div>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5">
+        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
             Learning goals
           </p>

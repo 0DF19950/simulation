@@ -4,6 +4,7 @@ import { MathFormula } from './MathFormula';
 import { Card, Eq, Predict, SymbolTable } from './LessonPrimitives';
 import { PreLessonQuiz, QuizQuestion } from './PreLessonQuiz';
 import { OrbitSimulator } from './OrbitSimulator';
+import { OrbitalInstrumentWidget } from './OrbitalInstrumentWidget';
 
 const ORBIT_QUESTIONS: QuizQuestion[] = [
   {
@@ -102,7 +103,7 @@ export const OrbitalLesson: React.FC = () => (
   <section className="py-12 bg-cream border-b border-sage/40">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Lesson header */}
-      <div className="max-w-3xl space-y-4 mb-10">
+      <div className="space-y-4 mb-10">
         <div className="flex items-center gap-2 text-deepteal font-mono text-xs uppercase tracking-wider font-bold">
           <Orbit className="w-4 h-4 text-gold-hover" />
           <span>Lesson 4 · High School</span>
@@ -111,18 +112,26 @@ export const OrbitalLesson: React.FC = () => (
           Orbital motion — when do we need simulation?
         </h2>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
-          <p className="mb-2">
-            Imagine throwing a ball horizontally from the top of a very tall mountain. The ball moves
-            forward while gravity pulls it downward. What if you could throw it so fast that, while
-            the ball is falling toward Earth, the Earth curves away beneath it?
-          </p>
-          <p className="font-bold text-deepteal">
-            The ball might never hit the ground. It would be orbiting Earth.
-          </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
+            <div className="bg-cream-card border border-sage rounded-xl p-5 font-sans text-sm text-deepteal-soft leading-relaxed">
+              <p className="mb-2">
+                Imagine throwing a ball horizontally from the top of a very tall mountain. The
+                ball moves forward while gravity pulls it downward. What if you could throw it so
+                fast that, while the ball is falling toward Earth, the Earth curves away beneath
+                it?
+              </p>
+              <p className="font-bold text-deepteal">
+                The ball might never hit the ground. It would be orbiting Earth.
+              </p>
+            </div>
+          </div>
+          <div className="lg:col-span-5">
+            <OrbitalInstrumentWidget />
+          </div>
         </div>
 
-        <div className="bg-cream-card border border-sage rounded-xl p-5">
+        <div className="max-w-3xl bg-cream-card border border-sage rounded-xl p-5">
           <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-sage-dark mb-2">
             Learning goals
           </p>
