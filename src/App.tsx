@@ -13,6 +13,7 @@ import { ProjectilePage } from './components/ProjectilePage';
 import { RocketPage } from './components/RocketPage';
 import { OrbitalPage } from './components/OrbitalPage';
 import { DoublePendulumPage } from './components/DoublePendulumPage';
+import { WaveInterferencePage } from './components/WaveInterferencePage';
 import { useFallingLab } from './hooks/useFallingLab';
 import { exportTrajectoryToCSV } from './utils/simulationEngine';
 import { Terminal } from 'lucide-react';
@@ -143,6 +144,7 @@ def acceleration(y, v):
  *   #/lesson/rocket             → Lesson 3, high school
  *   #/lesson/orbit              → Lesson 4, high school
  *   #/lesson/double-pendulum    → Lesson 5, high school
+ *   #/lesson/wave-interference  → Lesson 6, high school
  */
 function useHashRoute(): string {
   const [route, setRoute] = useState<string>(() => window.location.hash || '#/');
@@ -156,7 +158,15 @@ function useHashRoute(): string {
   return route;
 }
 
-type View = 'landing' | 'falling-hs' | 'falling-ug' | 'projectile' | 'rocket' | 'orbit' | 'double-pendulum';
+type View =
+  | 'landing'
+  | 'falling-hs'
+  | 'falling-ug'
+  | 'projectile'
+  | 'rocket'
+  | 'orbit'
+  | 'double-pendulum'
+  | 'wave-interference';
 
 function resolveView(route: string): View {
   // Match the deeper route first — '#/lesson/falling' is a prefix of both.
@@ -166,6 +176,7 @@ function resolveView(route: string): View {
   if (route.startsWith('#/lesson/rocket')) return 'rocket';
   if (route.startsWith('#/lesson/orbit')) return 'orbit';
   if (route.startsWith('#/lesson/double-pendulum')) return 'double-pendulum';
+  if (route.startsWith('#/lesson/wave-interference')) return 'wave-interference';
   return 'landing';
 }
 
@@ -177,6 +188,7 @@ const TITLES: Record<View, string> = {
   rocket: 'Philomathlab — Lesson 3: Rocket Launch',
   orbit: 'Philomathlab — Lesson 4: Orbital Motion',
   'double-pendulum': 'Philomathlab — Lesson 5: Double Pendulum',
+  'wave-interference': 'Philomathlab — Lesson 6: Wave Interference',
 };
 
 export default function App() {
@@ -191,6 +203,7 @@ export default function App() {
   if (view === 'falling-ug') return <FallingUGPage />;
   if (view === 'falling-hs') return <FallingLessonView />;
   if (view === 'projectile') return <ProjectilePage />;
+  if (view === 'wave-interference') return <WaveInterferencePage />;
   if (view === 'double-pendulum') return <DoublePendulumPage />;
   if (view === 'rocket') return <RocketPage />;
   if (view === 'orbit') return <OrbitalPage />;

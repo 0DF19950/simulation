@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, GitBranch, Orbit, Rocket, Target, Waves } from 'lucide-react';
+import { ArrowDownToLine, Atom, GitBranch, Orbit, Radio, Rocket, Target, Waves } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -122,6 +122,21 @@ export const TOPICS: Topic[] = [
     icon: GitBranch,
     tiers: [
       { tier: 'highschool', route: '#/lesson/double-pendulum' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'wave-interference',
+    title: 'Wave Interference',
+    domain: 'waves',
+    blurb:
+      'Two ripples cross and the water surges in some spots, goes flat in others. An exact formula for two sources at one point — then many sources, reflections, and a whole surface push back toward simulation.',
+    status: 'live',
+    route: '#/lesson/wave-interference',
+    icon: Radio,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/wave-interference' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],
