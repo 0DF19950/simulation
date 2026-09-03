@@ -66,7 +66,7 @@ export const FallingUGPage: React.FC = () => {
             <PhilomathLabLogo size="md" variant="light" />
           </a>
           <div className="flex items-center gap-3 overflow-x-auto">
-            <LessonTierNav active="undergrad" />
+            <LessonTierNav topicId="falling" active="undergrad" />
             <button
               onClick={() => labSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}
               className="hidden lg:inline text-[11px] font-mono text-sage-light/80 hover:text-gold transition-colors whitespace-nowrap"

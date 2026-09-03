@@ -10,7 +10,8 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Currently one topic is built, at two of its three depths.
+Currently two topics are built: the falling body at high-school and
+undergraduate depth, and orbital motion at high-school depth.
 
 ## What's here
 
@@ -63,14 +64,51 @@ by hand:
 - **Terminal velocity explorer** — sliders for m, C_d, A, and ρ driving both
   the predicted `v_t` and a live velocity curve against the vacuum case.
 
+### Lesson 2 — Orbital Motion (High School)
+
+Throw something sideways fast enough and it never lands. Ten parts, with a
+contents rail:
+
+- **Describing orbital motion** — why one dimension is no longer enough, and
+  why an object can accelerate while its speed stays constant.
+- **Gravity** — `F = GMm/r²`, and what the inverse square actually costs you.
+- **From gravity to orbital motion** — `a = GM/r²`, with the satellite's own
+  mass dropping out.
+- **Circular orbits** — deriving `v = √(GM/r)` by setting gravity equal to the
+  centripetal acceleration.
+- **How an orbiting object moves** — the coupled pair `dr/dt = v` and
+  `dv/dt = −GM·r/r³`.
+- **How a simulation thinks** — the six-step update loop, written out.
+- **Why initial velocity matters** — too slow, just right, and fast enough to
+  escape.
+- **Circular vs. elliptical**, **why simulation matters more**, and
+  **real-world applications**.
+
+Two interactives:
+
+- **Orbit simulator** — set an altitude and a starting speed and watch gravity
+  do the rest. Presets cover the lesson's four prediction cases; the readout
+  reports periapsis, apoapsis, eccentricity and period, and classifies the
+  result as circular, elliptical, impact, escape, or a straight line. Because
+  orbital energy is conserved in reality, the simulator measures its own drift
+  and warns when the *integrator* — not the physics — is bending the orbit,
+  which is what makes explicit Euler visibly spiral outward.
+- **Python lab in two dimensions** — see below.
+
 ### The Python lab
 
 Edit the `acceleration(y, v)` function and run it. Python executes for real,
 in the browser, via [Pyodide](https://pyodide.org/) (WebAssembly) — no install,
 no backend server. A synced canvas visualizer and live charts (height,
 velocity, energy) update from the actual computed trajectory. The lab appears
-on both lessons, opening on parameters appropriate to the depth: no drag and
-explicit Euler for high school, quadratic drag and RK4 for undergraduate.
+on every lesson, opening on parameters appropriate to the depth: no drag and
+explicit Euler for falling-body high school, quadratic drag and RK4 for
+undergraduate.
+
+Lesson 2 needs a different shape, because an orbit is a vector problem. Its lab
+asks for `acceleration(x, y, vx, vy)` returning `(ax, ay)`, and the RK4
+integrator calls that function at every stage. Python errors come back as real
+tracebacks pointing at the line you wrote.
 
 ## Routes
 
@@ -83,6 +121,7 @@ redirect.
 | `#/` | Landing page |
 | `#/lesson/falling` | Lesson 1, high school |
 | `#/lesson/falling/undergrad` | Lesson 1, undergraduate |
+| `#/lesson/orbit` | Lesson 2, high school |
 
 ## Adding a topic
 
@@ -149,14 +188,24 @@ src/
   App.tsx                    Hash router + the high-school lesson page
   data/topics.ts             The topic catalogue (edit this to add topics)
   hooks/useFallingLab.ts     Shared lab state: params, trajectory, Pyodide
+  utils/
+    simulationEngine.ts      1D falling-body integrator
+    orbitalEngine.ts         2D orbital integrator (RK4/Euler, Moon, drift)
   components/
     LandingPage.tsx          Topic catalogue
+    LessonPrimitives.tsx     Card / equation / symbol-table / predict blocks
+    LessonTierNav.tsx        Depth switcher, driven by data/topics.ts
     FallingBallLesson.tsx    Lesson 1 body, high school
-    FallingUGPage.tsx        Lesson 1 page shell, undergraduate
     FallingLessonUG.tsx      Lesson 1 body, undergraduate
+    FallingUGPage.tsx        Lesson 1 page shell, undergraduate
     NumericalExperiment.tsx  Convergence + method comparison (interactive)
     TerminalVelocityExplorer.tsx
-    PythonLabEditor.tsx      Pyodide-backed code editor
+    OrbitalLesson.tsx        Lesson 2 body
+    OrbitalPage.tsx          Lesson 2 page shell
+    OrbitSimulator.tsx       Interactive orbit explorer
+    OrbitCanvas.tsx          Earth-centred trajectory canvas (shared)
+    OrbitalPythonLab.tsx     2D Pyodide code lab
+    PythonLabEditor.tsx      1D Pyodide code lab
     …
 ```
 
@@ -168,6 +217,7 @@ plots.
 
 ## Status
 
-Early prototype. Lesson 1 exists at high-school and undergraduate depth; the
-researcher depth and the remaining topics are still placeholders on the
-landing page. Feedback welcome.
+Early prototype. Lesson 1 (falling bodies) exists at high-school and
+undergraduate depth, and Lesson 2 (orbital motion) at high-school depth. The
+researcher depth, the undergraduate orbital lesson, and the remaining topics
+are still placeholders on the landing page. Feedback welcome.

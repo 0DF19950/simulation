@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, Orbit, Waves } from 'lucide-react';
+import { ArrowDownToLine, Atom, Orbit, Target, Waves } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -67,14 +67,34 @@ export const TOPICS: Topic[] = [
     ],
   },
   {
-    id: 'projectiles',
-    title: 'Projectiles & Orbits',
+    id: 'projectile',
+    title: 'Projectile Motion',
     domain: 'classical',
     blurb:
-      'The same falling body, given a sideways push. Trajectories, escape velocity, and the point where a fall becomes an orbit.',
-    status: 'planned',
+      'Throw a ball at an angle and it traces a parabola. Splitting motion into independent horizontal and vertical components — then air resistance couples them back together.',
+    status: 'live',
+    route: '#/lesson/projectile',
+    icon: Target,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/projectile' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'orbit',
+    title: 'Orbital Motion',
+    domain: 'classical',
+    blurb:
+      'Throw something sideways fast enough and it never lands. Newton\u2019s law of gravitation, the circular orbital velocity, and the point where a closed-form answer stops being enough.',
+    status: 'live',
+    route: '#/lesson/orbit',
     icon: Orbit,
-    tiers: PLANNED_TIERS,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/orbit' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
   },
   {
     id: 'oscillations',
