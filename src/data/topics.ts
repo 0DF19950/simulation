@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, Orbit, Rocket, Target, Waves } from 'lucide-react';
+import { ArrowDownToLine, Atom, GitBranch, Orbit, Rocket, Target, Waves } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -107,6 +107,21 @@ export const TOPICS: Topic[] = [
     icon: Orbit,
     tiers: [
       { tier: 'highschool', route: '#/lesson/orbit' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'double-pendulum',
+    title: 'Double Pendulum',
+    domain: 'classical',
+    blurb:
+      'Two rods, two angles, no closed-form solution even in the frictionless ideal case. Deterministic chaos, sensitivity to starting conditions, and the first lesson where simulation is the only option.',
+    status: 'live',
+    route: '#/lesson/double-pendulum',
+    icon: GitBranch,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/double-pendulum' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

@@ -12,6 +12,7 @@ import { FallingUGPage } from './components/FallingUGPage';
 import { ProjectilePage } from './components/ProjectilePage';
 import { RocketPage } from './components/RocketPage';
 import { OrbitalPage } from './components/OrbitalPage';
+import { DoublePendulumPage } from './components/DoublePendulumPage';
 import { useFallingLab } from './hooks/useFallingLab';
 import { exportTrajectoryToCSV } from './utils/simulationEngine';
 import { Terminal } from 'lucide-react';
@@ -141,6 +142,7 @@ def acceleration(y, v):
  *   #/lesson/projectile         → Lesson 2, high school
  *   #/lesson/rocket             → Lesson 3, high school
  *   #/lesson/orbit              → Lesson 4, high school
+ *   #/lesson/double-pendulum    → Lesson 5, high school
  */
 function useHashRoute(): string {
   const [route, setRoute] = useState<string>(() => window.location.hash || '#/');
@@ -154,7 +156,7 @@ function useHashRoute(): string {
   return route;
 }
 
-type View = 'landing' | 'falling-hs' | 'falling-ug' | 'projectile' | 'rocket' | 'orbit';
+type View = 'landing' | 'falling-hs' | 'falling-ug' | 'projectile' | 'rocket' | 'orbit' | 'double-pendulum';
 
 function resolveView(route: string): View {
   // Match the deeper route first — '#/lesson/falling' is a prefix of both.
@@ -163,6 +165,7 @@ function resolveView(route: string): View {
   if (route.startsWith('#/lesson/projectile')) return 'projectile';
   if (route.startsWith('#/lesson/rocket')) return 'rocket';
   if (route.startsWith('#/lesson/orbit')) return 'orbit';
+  if (route.startsWith('#/lesson/double-pendulum')) return 'double-pendulum';
   return 'landing';
 }
 
@@ -173,6 +176,7 @@ const TITLES: Record<View, string> = {
   projectile: 'Philomathlab — Lesson 2: Projectile Motion',
   rocket: 'Philomathlab — Lesson 3: Rocket Launch',
   orbit: 'Philomathlab — Lesson 4: Orbital Motion',
+  'double-pendulum': 'Philomathlab — Lesson 5: Double Pendulum',
 };
 
 export default function App() {
@@ -187,6 +191,7 @@ export default function App() {
   if (view === 'falling-ug') return <FallingUGPage />;
   if (view === 'falling-hs') return <FallingLessonView />;
   if (view === 'projectile') return <ProjectilePage />;
+  if (view === 'double-pendulum') return <DoublePendulumPage />;
   if (view === 'rocket') return <RocketPage />;
   if (view === 'orbit') return <OrbitalPage />;
   return <LandingPage />;
