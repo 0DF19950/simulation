@@ -97,7 +97,7 @@ export const PreLessonQuiz: React.FC<PreLessonQuizProps> = ({
                       key={opt.id}
                       onClick={() => select(q.id, opt.id)}
                       disabled={!!chosen}
-                      className={`flex items-center justify-between gap-2 text-left text-xs font-mono px-3 py-2 rounded border transition-colors ${
+                      className={`flex items-center justify-between gap-2 text-left text-sm font-mono px-3 py-2 rounded border transition-colors ${
                         showState && isCorrect
                           ? 'bg-sage-light border-sage-dark text-deepteal font-bold'
                           : showState && isChosen && !isCorrect
