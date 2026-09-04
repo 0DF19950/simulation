@@ -86,37 +86,35 @@ export const WaveInterferenceInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-center flex-1">
-        <div className="col-span-6 flex justify-center">
-          <div className="w-full max-w-[220px]">
-            <WaveFieldCanvas
-              values={grid.values}
-              gridRes={grid.gridRes}
-              maxAmplitude={grid.maxAmplitude}
-              width={WIDTH}
-              height={HEIGHT}
-              sources={[SOURCE1, SOURCE2]}
-              label="Wave interference instrument preview"
-            />
-          </div>
+      <div className="flex-1 flex flex-col justify-center gap-5">
+        <div className="w-full max-w-[420px] mx-auto">
+          <WaveFieldCanvas
+            values={grid.values}
+            gridRes={grid.gridRes}
+            maxAmplitude={grid.maxAmplitude}
+            width={WIDTH}
+            height={HEIGHT}
+            sources={[SOURCE1, SOURCE2]}
+            label="Wave interference instrument preview"
+          />
         </div>
 
-        <div className="col-span-6 space-y-4 font-mono text-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">t (time):</span>
-            <span className="font-bold text-cream">{t.toFixed(1)} s</span>
+        <div className="grid grid-cols-4 gap-3 font-mono text-center">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">t (time)</div>
+            <div className="text-sm font-bold text-cream">{t.toFixed(1)} s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">Δφ:</span>
-            <span className="font-bold text-gold">{deltaPhiDeg.toFixed(0)}°</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">Δφ</div>
+            <div className="text-sm font-bold text-gold">{deltaPhiDeg.toFixed(0)}°</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">amplitude:</span>
-            <span className="font-bold text-gold">{(analyticAmplitude * 100).toFixed(2)} cm</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">amplitude</div>
+            <div className="text-sm font-bold text-gold">{(analyticAmplitude * 100).toFixed(2)} cm</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">sources:</span>
-            <span className="font-bold text-sage-light">2, f = {FREQUENCY} Hz</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">sources</div>
+            <div className="text-sm font-bold text-sage-light">2, f={FREQUENCY}Hz</div>
           </div>
         </div>
       </div>

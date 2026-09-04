@@ -12,6 +12,8 @@ interface ProjectileCanvasProps {
   /** How much of the path has been traced; the ball sits at this index. */
   stepIndex: number;
   label?: string;
+  /** Tailwind aspect-ratio class for the canvas box. Defaults to a wide 16:9 side view. */
+  aspectClassName?: string;
 }
 
 /** Ground-level side view of a trajectory. Shared by the simulator and the Python lab. */
@@ -21,6 +23,7 @@ export const ProjectileCanvas: React.FC<ProjectileCanvasProps> = ({
   maxHeight,
   stepIndex,
   label = 'Projectile trajectory',
+  aspectClassName = 'aspect-[16/9]',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -100,7 +103,7 @@ export const ProjectileCanvas: React.FC<ProjectileCanvasProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className="w-full aspect-[16/9] rounded-lg border border-sage/60"
+      className={`w-full ${aspectClassName} rounded-lg border border-sage/60`}
       role="img"
       aria-label={label}
     />

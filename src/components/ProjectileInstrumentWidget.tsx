@@ -68,35 +68,31 @@ export const ProjectileInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-center flex-1">
-        <div className="col-span-6 flex justify-center">
-          <div className="w-full max-w-[240px]">
-            <ProjectileCanvas
-              points={result.points}
-              maxRange={Math.max(result.range, 1)}
-              maxHeight={Math.max(result.maxHeight, 1)}
-              stepIndex={stepIndex}
-              label="Projectile instrument preview"
-            />
-          </div>
-        </div>
+      <div className="flex-1 flex flex-col justify-center gap-5">
+        <ProjectileCanvas
+          points={result.points}
+          maxRange={Math.max(result.range, 1)}
+          maxHeight={Math.max(result.maxHeight, 1)}
+          stepIndex={stepIndex}
+          label="Projectile instrument preview"
+        />
 
-        <div className="col-span-6 space-y-4 font-mono text-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">t (time):</span>
-            <span className="font-bold text-cream">{current?.t.toFixed(2)} s</span>
+        <div className="grid grid-cols-4 gap-3 font-mono text-center">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">t (time)</div>
+            <div className="text-sm font-bold text-cream">{current?.t.toFixed(2)} s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">x (range):</span>
-            <span className="font-bold text-gold">{current?.x.toFixed(1)} m</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">x (range)</div>
+            <div className="text-sm font-bold text-gold">{current?.x.toFixed(1)} m</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">y (height):</span>
-            <span className="font-bold text-gold">{current?.y.toFixed(1)} m</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">y (height)</div>
+            <div className="text-sm font-bold text-gold">{current?.y.toFixed(1)} m</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">speed:</span>
-            <span className="font-bold text-cream">{current?.speed.toFixed(2)} m/s</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">speed</div>
+            <div className="text-sm font-bold text-cream">{current?.speed.toFixed(2)} m/s</div>
           </div>
         </div>
       </div>

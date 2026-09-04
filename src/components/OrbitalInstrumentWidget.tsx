@@ -63,36 +63,34 @@ export const OrbitalInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-center flex-1">
-        <div className="col-span-6 flex justify-center">
-          <div className="w-full max-w-[220px]">
-            <OrbitCanvas
-              points={result.points}
-              maxRadiusM={result.maxRadiusM}
-              stepIndex={stepIndex}
-              label="Orbital instrument preview"
-            />
-          </div>
+      <div className="flex-1 flex flex-col justify-center gap-5">
+        <div className="w-full">
+          <OrbitCanvas
+            points={result.points}
+            maxRadiusM={result.maxRadiusM}
+            stepIndex={stepIndex}
+            label="Orbital instrument preview"
+          />
         </div>
 
-        <div className="col-span-6 space-y-4 font-mono text-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">t (time):</span>
-            <span className="font-bold text-cream">{((current?.t ?? 0) / 60).toFixed(1)} min</span>
+        <div className="grid grid-cols-4 gap-3 font-mono text-center">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">t (time)</div>
+            <div className="text-sm font-bold text-cream">{((current?.t ?? 0) / 60).toFixed(1)} min</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">altitude:</span>
-            <span className="font-bold text-gold">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">altitude</div>
+            <div className="text-sm font-bold text-gold">
               {(((current?.r ?? EARTH.radiusM) - EARTH.radiusM) / 1000).toFixed(0)} km
-            </span>
+            </div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">speed:</span>
-            <span className="font-bold text-cream">{(((current?.speed ?? 0)) / 1000).toFixed(2)} km/s</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">speed</div>
+            <div className="text-sm font-bold text-cream">{(((current?.speed ?? 0)) / 1000).toFixed(2)} km/s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">period:</span>
-            <span className="font-bold text-sage-light">{result.periodMinutes?.toFixed(0) ?? '—'} min</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">period</div>
+            <div className="text-sm font-bold text-sage-light">{result.periodMinutes?.toFixed(0) ?? '—'} min</div>
           </div>
         </div>
       </div>

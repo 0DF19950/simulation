@@ -81,35 +81,34 @@ export const RocketInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-center flex-1">
-        <div className="col-span-5 flex justify-center">
-          <div className="w-full max-w-[190px]">
-            <ProjectileCanvas
-              points={points}
-              maxRange={maxRange}
-              maxHeight={maxHeight}
-              stepIndex={stepIndex}
-              label="Rocket instrument preview"
-            />
-          </div>
+      <div className="flex-1 flex flex-col justify-center gap-5">
+        <div className="w-full max-w-[260px] mx-auto">
+          <ProjectileCanvas
+            points={points}
+            maxRange={maxRange}
+            maxHeight={maxHeight}
+            stepIndex={stepIndex}
+            label="Rocket instrument preview"
+            aspectClassName="aspect-[3/5]"
+          />
         </div>
 
-        <div className="col-span-7 space-y-4 font-mono text-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">t (time):</span>
-            <span className="font-bold text-cream">{current?.t.toFixed(2)} s</span>
+        <div className="grid grid-cols-4 gap-3 font-mono text-center">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">t (time)</div>
+            <div className="text-sm font-bold text-cream">{current?.t.toFixed(2)} s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">altitude (y):</span>
-            <span className="font-bold text-gold">{current?.y.toFixed(1)} m</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">altitude</div>
+            <div className="text-sm font-bold text-gold">{current?.y.toFixed(1)} m</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">speed:</span>
-            <span className="font-bold text-cream">{current?.speed.toFixed(1)} m/s</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">speed</div>
+            <div className="text-sm font-bold text-cream">{current?.speed.toFixed(1)} m/s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">mass:</span>
-            <span className="font-bold text-sage-light">{current?.mass.toFixed(1)} kg</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">mass</div>
+            <div className="text-sm font-bold text-sage-light">{current?.mass.toFixed(1)} kg</div>
           </div>
         </div>
       </div>

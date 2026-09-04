@@ -75,37 +75,35 @@ export const DoublePendulumInstrumentWidget: React.FC = () => {
         </span>
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-center flex-1">
-        <div className="col-span-6 flex justify-center">
-          <div className="w-full max-w-[220px]">
-            <DoublePendulumCanvas
-              points={result.points}
-              maxReach={PARAMS.l1 + PARAMS.l2}
-              stepIndex={stepIndex}
-              trailLength={200}
-              label="Double pendulum instrument preview"
-            />
-          </div>
+      <div className="flex-1 flex flex-col justify-center gap-5">
+        <div className="w-full max-w-[420px] mx-auto">
+          <DoublePendulumCanvas
+            points={result.points}
+            maxReach={PARAMS.l1 + PARAMS.l2}
+            stepIndex={stepIndex}
+            trailLength={200}
+            label="Double pendulum instrument preview"
+          />
         </div>
 
-        <div className="col-span-6 space-y-4 font-mono text-sm">
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">t (time):</span>
-            <span className="font-bold text-cream">{current?.t.toFixed(2)} s</span>
+        <div className="grid grid-cols-4 gap-3 font-mono text-center">
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">t (time)</div>
+            <div className="text-sm font-bold text-cream">{current?.t.toFixed(2)} s</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">θ₁:</span>
-            <span className="font-bold text-gold">{((current?.theta1 ?? 0) / DEG).toFixed(0)}°</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">θ₁</div>
+            <div className="text-sm font-bold text-gold">{((current?.theta1 ?? 0) / DEG).toFixed(0)}°</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">θ₂:</span>
-            <span className="font-bold text-gold">{((current?.theta2 ?? 0) / DEG).toFixed(0)}°</span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">θ₂</div>
+            <div className="text-sm font-bold text-gold">{((current?.theta2 ?? 0) / DEG).toFixed(0)}°</div>
           </div>
-          <div className="flex justify-between items-center pb-2 border-b border-sage/30">
-            <span className="text-sage-light">ω₁, ω₂:</span>
-            <span className="font-bold text-sage-light">
-              {current?.omega1.toFixed(1)}, {current?.omega2.toFixed(1)} rad/s
-            </span>
+          <div>
+            <div className="text-[10px] uppercase tracking-wide text-sage-light mb-1">ω₁, ω₂ (rad/s)</div>
+            <div className="text-sm font-bold text-sage-light">
+              {current?.omega1.toFixed(1)}, {current?.omega2.toFixed(1)}
+            </div>
           </div>
         </div>
       </div>
