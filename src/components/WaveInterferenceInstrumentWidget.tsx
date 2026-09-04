@@ -87,7 +87,7 @@ export const WaveInterferenceInstrumentWidget: React.FC = () => {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-5">
-        <div className="w-full max-w-[420px] mx-auto">
+        <div className="w-full max-w-[270px] mx-auto">
           <WaveFieldCanvas
             values={grid.values}
             gridRes={grid.gridRes}

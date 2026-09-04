@@ -82,7 +82,7 @@ export const RocketInstrumentWidget: React.FC = () => {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-5">
-        <div className="w-full max-w-[260px] mx-auto">
+        <div className="w-full max-w-[135px] mx-auto">
           <ProjectileCanvas
             points={points}
             maxRange={maxRange}

@@ -76,7 +76,7 @@ export const DoublePendulumInstrumentWidget: React.FC = () => {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-5">
-        <div className="w-full max-w-[420px] mx-auto">
+        <div className="w-full max-w-[220px] mx-auto">
           <DoublePendulumCanvas
             points={result.points}
             maxReach={PARAMS.l1 + PARAMS.l2}
