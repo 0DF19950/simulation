@@ -64,7 +64,7 @@ const TopicCard: React.FC<{ topic: Topic }> = ({ topic }) => {
             <a
               key={tier}
               href={route}
-              className="font-mono text-[10px] uppercase tracking-wide px-2 py-0.5 rounded border border-gold/50 bg-gold-light/40 text-gold-hover transition-colors hover:border-gold hover:bg-gold hover:text-deepteal"
+              className="font-mono text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded border border-gold bg-gold-light text-gold-hover transition-colors hover:bg-gold hover:text-deepteal"
             >
               {TIER_LABELS[tier]}
             </a>
