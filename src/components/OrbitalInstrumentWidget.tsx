@@ -64,7 +64,7 @@ export const OrbitalInstrumentWidget: React.FC = () => {
       </div>
 
       <div className="flex-1 flex flex-col justify-center gap-5">
-        <div className="w-full">
+        <div className="w-full max-w-[130px] mx-auto">
           <OrbitCanvas
             points={result.points}
             maxRadiusM={result.maxRadiusM}
