@@ -10,9 +10,10 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Six topics are built so far, all at high-school depth (falling body also ships
-at undergraduate depth): falling bodies, projectile motion, rocket launches,
-orbital motion, the double pendulum, and wave interference. Each one follows
+Seven topics are built so far, all at high-school depth (falling body also
+ships at undergraduate depth): falling bodies, projectile motion, rocket
+launches, orbital motion, the double pendulum, wave interference, and
+electromagnetic fields. Each one follows
 the same arc — build intuition, derive an exact formula, find the case where
 that formula stops applying, then simulate — and each one ends in a real
 Python lab.
@@ -220,9 +221,43 @@ whole grid, summed together every frame. Seven parts, with a contents rail:
   matching the lesson's own description of the algorithm rather than forcing
   an ODE shape onto a problem that doesn't have one.
 
+### Lesson 7 — Electromagnetic Fields (High School)
+
+Lesson 6's superposition, with vectors: a field has a direction as well as a
+size, so two of them reinforce or cancel depending on geometry rather than
+phase. Like Lesson 6 the engine evaluates the field directly — Coulomb's law
+is closed-form at every point — and what makes it a simulation is scale.
+Seven parts, with a contents rail:
+
+- **Describing an electric field** — charge, distance, field strength, and
+  Coulomb's law `E(r) = kQ/r²`.
+- **The principle of superposition** — `E_total = E₁ + E₂`, as a vector sum.
+- **Building the mathematical model** — two identical charges give the exact
+  bisector field `E_total = 2kQL / (L² + (d/2)²)^(3/2)`, with its near- and
+  far-field limits and a worked example.
+- **Different geometries** — far away the pair behaves like one 2Q charge; at
+  the midpoint the field cancels to zero.
+- **Why equations eventually fail** — many sources, and conductors that
+  redistribute their own charge in response.
+- **How a simulation thinks**, and **real-world applications** — chip design,
+  antennas and radar, MRI coils, shielding, space weather.
+
+- **Electric field simulator** — a log-scale field-strength heatmap with field
+  lines, and toggles for a negative charge, a third charge, a grounded
+  conducting plate, and unequal strengths. It evaluates the field at point P
+  by full vector superposition and checks that against Part 3's closed form,
+  so the "matches" note disappears the moment a toggle breaks the formula's
+  assumptions. The plate uses the method of images, which is exact for a
+  grounded plane: field lines meet it at right angles and none enter it.
+- **Python lab** — a `CHARGES` list and `total_field(x, y, charges)` returning
+  `(Ex, Ey)`, evaluated across a 60×60 grid and drawn as a heatmap with
+  direction arrows. The lab recomputes P from your `CHARGES` with its own
+  Coulomb's-law engine, so a bug in `field()` shows up as a disagreement
+  rather than a plausible-looking picture.
+
 ### The Python lab
 
-Edit the acceleration (or, for Lesson 6, the superposition) function and run
+Edit the acceleration (or, for Lessons 6 and 7, the superposition) function and run
 it. Python executes for real, in the browser, via
 [Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
 server. Python errors come back as real tracebacks pointing at the line you
@@ -236,6 +271,7 @@ wrote. The function signature changes with what the physics actually needs:
 | 4 — Orbital | `acceleration(x, y, vx, vy)` |
 | 5 — Double pendulum | `angular_acceleration(theta1, theta2, omega1, omega2)` |
 | 6 — Wave interference | `total_displacement(x, y, t, sources)` |
+| 7 — Electromagnetic fields | `total_field(x, y, charges)` |
 
 Lesson 1's lab also carries a synced canvas visualizer and live charts
 (height, velocity, energy) alongside the code editor.
@@ -256,6 +292,7 @@ redirect.
 | `#/lesson/orbit` | Lesson 4, high school |
 | `#/lesson/double-pendulum` | Lesson 5, high school |
 | `#/lesson/wave-interference` | Lesson 6, high school |
+| `#/lesson/electromagnetic-fields` | Lesson 7, high school |
 
 ## Adding a topic
 
@@ -266,7 +303,7 @@ one entry per topic:
 {
   id: 'oscillations',
   title: 'Oscillations & Waves',
-  domain: 'waves',                    // 'classical' | 'waves' | 'modern'
+  domain: 'waves',                    // 'classical' | 'waves' | 'electromagnetism' | 'modern'
   blurb: '…',
   status: 'planned',                  // 'live' renders a clickable card
   icon: Waves,                        // any lucide-react icon
@@ -333,6 +370,7 @@ src/
     orbitalEngine.ts            2D orbital integrator (RK4/Euler, Moon, drift)
     doublePendulumEngine.ts     Coupled nonlinear pendulum integrator
     waveInterferenceEngine.ts   Direct field evaluation (no time integration)
+    electricFieldEngine.ts      Coulomb superposition, method of images, field lines
   components/
     LandingPage.tsx             Topic catalogue
     LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
@@ -374,6 +412,12 @@ src/
     WaveFieldCanvas.tsx         2D heatmap renderer (shared)
     WaveInterferencePythonLab.tsx  Pyodide code lab (single-snapshot, no time loop)
     WaveInterferenceInstrumentWidget.tsx
+    ElectricFieldLesson.tsx     Lesson 7 body
+    ElectricFieldPage.tsx       Lesson 7 page shell
+    ElectricFieldSimulator.tsx  Interactive field explorer (probe vs. closed form)
+    ElectricFieldCanvas.tsx     Log-scale field heatmap with lines or arrows
+    ElectricFieldPythonLab.tsx  Pyodide code lab (vector field over a grid)
+    ElectricFieldInstrumentWidget.tsx
     PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
@@ -386,8 +430,8 @@ live plots.
 
 ## Status
 
-Early prototype. Six topics are live at high-school depth (falling bodies
+Early prototype. Seven topics are live at high-school depth (falling bodies
 also ships at undergraduate depth). The researcher depth, the undergraduate
-depth for lessons 2–6, and the remaining topics on the landing page
+depth for lessons 2–7, and the remaining topics on the landing page
 (oscillations & waves as a general topic, quantum motion) are still
 placeholders. Feedback welcome.

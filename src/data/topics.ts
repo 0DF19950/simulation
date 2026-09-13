@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, GitBranch, Orbit, Radio, Rocket, Target, Waves } from 'lucide-react';
+import { ArrowDownToLine, Atom, GitBranch, Orbit, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -26,6 +26,7 @@ export interface TopicTier {
 export const DOMAIN_LABELS: Record<PhysicsDomain, string> = {
   classical: 'Classical Mechanics',
   waves: 'Waves & Oscillations',
+  electromagnetism: 'Electromagnetism',
   modern: 'Modern Physics',
 };
 
@@ -137,6 +138,21 @@ export const TOPICS: Topic[] = [
     icon: Radio,
     tiers: [
       { tier: 'highschool', route: '#/lesson/wave-interference' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'electromagnetic-fields',
+    title: 'Electromagnetic Fields',
+    domain: 'electromagnetism',
+    blurb:
+      'Two charged balloons: a field that strengthens in some spots and cancels in others. An exact formula for two charges at one point — then many sources, conductors, and a whole region push back toward simulation.',
+    status: 'live',
+    route: '#/lesson/electromagnetic-fields',
+    icon: Zap,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/electromagnetic-fields' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

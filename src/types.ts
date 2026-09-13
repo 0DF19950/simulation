@@ -3,7 +3,7 @@ export type AudienceTier = 'highschool' | 'undergrad' | 'researcher';
 // Kept for compatibility with PygameCanvasVisualizer / PythonLabEditor props,
 // which were originally shared across multiple physics domains.
 // This single-page build only ever uses 'classical'.
-export type PhysicsDomain = 'classical' | 'waves' | 'modern';
+export type PhysicsDomain = 'classical' | 'waves' | 'electromagnetism' | 'modern';
 
 export interface CelestialBody {
   id: string;
