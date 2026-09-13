@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, GitBranch, Orbit, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
+import { ArrowDownToLine, Atom, GitBranch, Magnet, Orbit, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -153,6 +153,21 @@ export const TOPICS: Topic[] = [
     icon: Zap,
     tiers: [
       { tier: 'highschool', route: '#/lesson/electromagnetic-fields' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'particle-accelerator',
+    title: 'Particle Accelerator',
+    domain: 'electromagnetism',
+    blurb:
+      'A charged particle in a magnetic field traces a perfect circle, with a lap time that does not depend on its speed. Then a billion particles repel, a cavity pushes, and radiation drains energy away.',
+    status: 'live',
+    route: '#/lesson/particle-accelerator',
+    icon: Magnet,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/particle-accelerator' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

@@ -10,10 +10,10 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Seven topics are built so far, all at high-school depth (falling body also
+Eight topics are built so far, all at high-school depth (falling body also
 ships at undergraduate depth): falling bodies, projectile motion, rocket
-launches, orbital motion, the double pendulum, wave interference, and
-electromagnetic fields. Each one follows
+launches, orbital motion, the double pendulum, wave interference,
+electromagnetic fields, and particle accelerators. Each one follows
 the same arc — build intuition, derive an exact formula, find the case where
 that formula stops applying, then simulate — and each one ends in a real
 Python lab.
@@ -255,9 +255,43 @@ Seven parts, with a contents rail:
   Coulomb's-law engine, so a bug in `field()` shows up as a disagreement
   rather than a plausible-looking picture.
 
+### Lesson 8 — Particle Accelerator (High School)
+
+Back to stepping a state forward in time: a beam's next moment depends on
+where every particle is now. The magnetic push uses the Boris scheme, the
+standard particle pusher in accelerator and plasma codes, because it turns a
+velocity without changing its size — so speed only changes through physics
+added on purpose. Seven parts, with a contents rail:
+
+- **Describing a charged particle in a field** — charge, mass, speed, field
+  strength, and the Lorentz force `F = q v × B`.
+- **One governing rule** — a force that is always sideways to the motion
+  steers the particle without speeding it up.
+- **Building the mathematical model** — the cyclotron radius `r = mv/(qB)`
+  and period `T = 2πm/(qB)`, from which speed cancels.
+- **Different particles and fields** — how field, speed, mass and charge sign
+  change the orbit.
+- **Why equations eventually fail** — space charge, RF cavities, imperfect
+  fields, and synchrotron radiation.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Accelerator simulator** — proton, deuteron or antiproton; field and
+  speed; a single particle, a pair, or a 40-dot bunch; space charge, an RF
+  cavity, radiation, and Boris vs. Euler. It measures the simulated orbit's
+  radius and lap time against Part 3's formulas. Space charge uses
+  macro-particles, as real beam codes do — each dot can stand for up to a
+  billion particles, because two real protons repel with about 10⁻¹¹ of the
+  magnetic force. In a strong uniform field that repulsion shows up first as a
+  pair turning around each other rather than flying apart. Radiation is shown
+  exaggerated about 3×10¹⁶ times, and the simulator says so.
+- **Python lab** — you write the physics (`PARTICLES` and
+  `electric_field(x, y, others)`); the lab does the Boris push, the way real
+  beam codes separate field solvers from particle pushers.
+
 ### The Python lab
 
-Edit the acceleration (or, for Lessons 6 and 7, the superposition) function and run
+Edit the acceleration function (or, for Lessons 6 and 7, the superposition; for
+Lesson 8, the electric field) and run
 it. Python executes for real, in the browser, via
 [Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
 server. Python errors come back as real tracebacks pointing at the line you
@@ -272,6 +306,7 @@ wrote. The function signature changes with what the physics actually needs:
 | 5 — Double pendulum | `angular_acceleration(theta1, theta2, omega1, omega2)` |
 | 6 — Wave interference | `total_displacement(x, y, t, sources)` |
 | 7 — Electromagnetic fields | `total_field(x, y, charges)` |
+| 8 — Particle accelerator | `electric_field(x, y, others)` — the lab does the push |
 
 Lesson 1's lab also carries a synced canvas visualizer and live charts
 (height, velocity, energy) alongside the code editor.
@@ -293,6 +328,7 @@ redirect.
 | `#/lesson/double-pendulum` | Lesson 5, high school |
 | `#/lesson/wave-interference` | Lesson 6, high school |
 | `#/lesson/electromagnetic-fields` | Lesson 7, high school |
+| `#/lesson/particle-accelerator` | Lesson 8, high school |
 
 ## Adding a topic
 
@@ -371,6 +407,7 @@ src/
     doublePendulumEngine.ts     Coupled nonlinear pendulum integrator
     waveInterferenceEngine.ts   Direct field evaluation (no time integration)
     electricFieldEngine.ts      Coulomb superposition, method of images, field lines
+    acceleratorEngine.ts        Boris pusher: space charge, RF kicks, radiation loss
   components/
     LandingPage.tsx             Topic catalogue
     LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
@@ -418,6 +455,12 @@ src/
     ElectricFieldCanvas.tsx     Log-scale field heatmap with lines or arrows
     ElectricFieldPythonLab.tsx  Pyodide code lab (vector field over a grid)
     ElectricFieldInstrumentWidget.tsx
+    AcceleratorLesson.tsx       Lesson 8 body
+    AcceleratorPage.tsx         Lesson 8 page shell
+    AcceleratorSimulator.tsx    Interactive beam explorer (orbit vs. formula)
+    AcceleratorCanvas.tsx       Ring view with trails, RF gap and scale bar
+    AcceleratorPythonLab.tsx    Pyodide code lab (you write fields; it pushes)
+    AcceleratorInstrumentWidget.tsx
     PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
@@ -430,8 +473,8 @@ live plots.
 
 ## Status
 
-Early prototype. Seven topics are live at high-school depth (falling bodies
+Early prototype. Eight topics are live at high-school depth (falling bodies
 also ships at undergraduate depth). The researcher depth, the undergraduate
-depth for lessons 2–7, and the remaining topics on the landing page
+depth for lessons 2–8, and the remaining topics on the landing page
 (oscillations & waves as a general topic, quantum motion) are still
 placeholders. Feedback welcome.
