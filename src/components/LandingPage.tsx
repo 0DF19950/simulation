@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { ArrowRight, Terminal } from 'lucide-react';
 import { PhilomathLabLogo } from './PhilomathLabLogo';
+import { HeroIllustration } from './HeroIllustration';
 import { DOMAIN_LABELS, TIER_LABELS, TOPICS, Topic } from '../data/topics';
 import { AudienceTier } from '../types';
 
@@ -115,9 +116,10 @@ export const LandingPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero — left transparent so the body's dotted paper grid shows through */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="max-w-3xl">
+      {/* Hero — solid cream so the body's dot grid doesn't show behind it */}
+      <section className="bg-cream">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-12 lg:gap-10 lg:px-8">
+        <div className="max-w-3xl lg:col-span-7">
           <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-sage-dark">
             Philomathlab
           </p>
@@ -155,6 +157,9 @@ export const LandingPage: React.FC = () => {
             <Terminal className="h-4 w-4 shrink-0 text-gold-hover" />
             <span>y(t) = y₀ + v₀t − ½gt²  —  and the code that solves it</span>
           </div>
+        </div>
+
+        <HeroIllustration className="mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none" />
         </div>
       </section>
 
