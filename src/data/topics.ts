@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, GitBranch, Magnet, Orbit, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
+import { ArrowDownToLine, Atom, GitBranch, Magnet, Orbit, Radiation, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -168,6 +168,21 @@ export const TOPICS: Topic[] = [
     icon: Magnet,
     tiers: [
       { tier: 'highschool', route: '#/lesson/particle-accelerator' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'radioactive-decay',
+    title: 'Radioactive Decay',
+    domain: 'modern',
+    blurb:
+      'No one can say when a single atom will decay, yet a jar of them traces a perfect curve. The exact formula for one isotope — then decay chains, small samples, and mixtures push back toward simulation.',
+    status: 'live',
+    route: '#/lesson/radioactive-decay',
+    icon: Radiation,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/radioactive-decay' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

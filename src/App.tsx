@@ -16,6 +16,7 @@ import { DoublePendulumPage } from './components/DoublePendulumPage';
 import { WaveInterferencePage } from './components/WaveInterferencePage';
 import { ElectricFieldPage } from './components/ElectricFieldPage';
 import { AcceleratorPage } from './components/AcceleratorPage';
+import { DecayPage } from './components/DecayPage';
 import { useFallingLab } from './hooks/useFallingLab';
 import { exportTrajectoryToCSV } from './utils/simulationEngine';
 import { Terminal } from 'lucide-react';
@@ -149,6 +150,7 @@ def acceleration(y, v):
  *   #/lesson/wave-interference  → Lesson 6, high school
  *   #/lesson/electromagnetic-fields → Lesson 7, high school
  *   #/lesson/particle-accelerator   → Lesson 8, high school
+ *   #/lesson/radioactive-decay      → Lesson 9, high school
  */
 function useHashRoute(): string {
   const [route, setRoute] = useState<string>(() => window.location.hash || '#/');
@@ -172,7 +174,8 @@ type View =
   | 'double-pendulum'
   | 'wave-interference'
   | 'electromagnetic-fields'
-  | 'particle-accelerator';
+  | 'particle-accelerator'
+  | 'radioactive-decay';
 
 function resolveView(route: string): View {
   // Match the deeper route first — '#/lesson/falling' is a prefix of both.
@@ -185,6 +188,7 @@ function resolveView(route: string): View {
   if (route.startsWith('#/lesson/wave-interference')) return 'wave-interference';
   if (route.startsWith('#/lesson/electromagnetic-fields')) return 'electromagnetic-fields';
   if (route.startsWith('#/lesson/particle-accelerator')) return 'particle-accelerator';
+  if (route.startsWith('#/lesson/radioactive-decay')) return 'radioactive-decay';
   return 'landing';
 }
 
@@ -199,6 +203,7 @@ const TITLES: Record<View, string> = {
   'wave-interference': 'Philomathlab — Lesson 6: Wave Interference',
   'electromagnetic-fields': 'Philomathlab — Lesson 7: Electromagnetic Fields',
   'particle-accelerator': 'Philomathlab — Lesson 8: Particle Accelerator',
+  'radioactive-decay': 'Philomathlab — Lesson 9: Radioactive Decay',
 };
 
 export default function App() {
@@ -216,6 +221,7 @@ export default function App() {
   if (view === 'wave-interference') return <WaveInterferencePage />;
   if (view === 'electromagnetic-fields') return <ElectricFieldPage />;
   if (view === 'particle-accelerator') return <AcceleratorPage />;
+  if (view === 'radioactive-decay') return <DecayPage />;
   if (view === 'double-pendulum') return <DoublePendulumPage />;
   if (view === 'rocket') return <RocketPage />;
   if (view === 'orbit') return <OrbitalPage />;

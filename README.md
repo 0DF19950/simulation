@@ -10,10 +10,10 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Eight topics are built so far, all at high-school depth (falling body also
+Nine topics are built so far, all at high-school depth (falling body also
 ships at undergraduate depth): falling bodies, projectile motion, rocket
 launches, orbital motion, the double pendulum, wave interference,
-electromagnetic fields, and particle accelerators. Each one follows
+electromagnetic fields, particle accelerators, and radioactive decay. Each one follows
 the same arc — build intuition, derive an exact formula, find the case where
 that formula stops applying, then simulate — and each one ends in a real
 Python lab.
@@ -288,10 +288,42 @@ added on purpose. Seven parts, with a contents rail:
   `electric_field(x, y, others)`); the lab does the Boris push, the way real
   beam codes separate field solvers from particle pushers.
 
+### Lesson 9 — Radioactive Decay (High School)
+
+The first engine that is random on purpose, because the physics is: no one can
+say when a single atom will decay. It runs the lesson's own loop literally —
+one random number per atom, per step — and checks every run against the exact
+answers, `N₀e^(−λt)` for one isotope and the Bateman solution for chains.
+Seven parts, with a contents rail:
+
+- **Describing a radioactive sample** — number of atoms, decay constant, and
+  half-life.
+- **The principle of proportional decay** — `dN/dt = −λN`, with no atom
+  remembering how long it has survived.
+- **Building the mathematical model** — `N(t) = N₀e^(−λt)` and
+  `T½ = ln 2/λ`, with a worked example.
+- **Different half-lives** — short, medium, long, and mixed samples.
+- **Why equations eventually fail** — decay chains, small samples, and
+  mixtures.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Radioactive decay simulator** — one isotope, a two- or three-step chain,
+  or a mixed sample, from 20 to 10,000 atoms. A jar shows each atom's current
+  isotope; a line chart (built to the data-viz method, with a palette validated
+  for colour-blind separation) plots every count with the exact formula dashed,
+  plus a crosshair tooltip and a table view. It reads the half-life off the
+  run, measures the spread across 200 fresh samples against the binomial
+  prediction, compares a chain's peak with Bateman's, and shows that a mixture
+  has no single half-life. The exact step rule samples decay times inside each
+  step, so chains stay unbiased at any step size; a simple `λΔt` rule is there
+  to show the bias it introduces.
+- **Python lab** — `ISOTOPES`, `START`, `decay_probability(half_life, dt)` and
+  `step(atoms, dt)`: the per-atom loop, drawn against the exact curves.
+
 ### The Python lab
 
 Edit the acceleration function (or, for Lessons 6 and 7, the superposition; for
-Lesson 8, the electric field) and run
+Lesson 8, the electric field; for Lesson 9, the per-atom step) and run
 it. Python executes for real, in the browser, via
 [Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
 server. Python errors come back as real tracebacks pointing at the line you
@@ -307,6 +339,7 @@ wrote. The function signature changes with what the physics actually needs:
 | 6 — Wave interference | `total_displacement(x, y, t, sources)` |
 | 7 — Electromagnetic fields | `total_field(x, y, charges)` |
 | 8 — Particle accelerator | `electric_field(x, y, others)` — the lab does the push |
+| 9 — Radioactive decay | `step(atoms, dt)` and `decay_probability(half_life, dt)` |
 
 Lesson 1's lab also carries a synced canvas visualizer and live charts
 (height, velocity, energy) alongside the code editor.
@@ -329,6 +362,7 @@ redirect.
 | `#/lesson/wave-interference` | Lesson 6, high school |
 | `#/lesson/electromagnetic-fields` | Lesson 7, high school |
 | `#/lesson/particle-accelerator` | Lesson 8, high school |
+| `#/lesson/radioactive-decay` | Lesson 9, high school |
 
 ## Adding a topic
 
@@ -408,6 +442,7 @@ src/
     waveInterferenceEngine.ts   Direct field evaluation (no time integration)
     electricFieldEngine.ts      Coulomb superposition, method of images, field lines
     acceleratorEngine.ts        Boris pusher: space charge, RF kicks, radiation loss
+    decayEngine.ts              Per-atom Monte Carlo decay, Bateman chains, spread
   components/
     LandingPage.tsx             Topic catalogue
     LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
@@ -461,6 +496,13 @@ src/
     AcceleratorCanvas.tsx       Ring view with trails, RF gap and scale bar
     AcceleratorPythonLab.tsx    Pyodide code lab (you write fields; it pushes)
     AcceleratorInstrumentWidget.tsx
+    DecayLesson.tsx             Lesson 9 body
+    DecayPage.tsx               Lesson 9 page shell
+    DecaySimulator.tsx          Interactive decay explorer (run vs. exact curves)
+    DecayChart.tsx              Multi-line chart with tooltip and table view
+    DecayJar.tsx                Jar of atoms coloured by isotope
+    DecayPythonLab.tsx          Pyodide code lab (per-atom step)
+    DecayInstrumentWidget.tsx
     PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
@@ -473,8 +515,8 @@ live plots.
 
 ## Status
 
-Early prototype. Eight topics are live at high-school depth (falling bodies
+Early prototype. Nine topics are live at high-school depth (falling bodies
 also ships at undergraduate depth). The researcher depth, the undergraduate
-depth for lessons 2–8, and the remaining topics on the landing page
+depth for lessons 2–9, and the remaining topics on the landing page
 (oscillations & waves as a general topic, quantum motion) are still
 placeholders. Feedback welcome.
