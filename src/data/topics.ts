@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, GitBranch, Magnet, Orbit, Radiation, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
+import { ArrowDownToLine, Atom, Bubbles, GitBranch, Magnet, Orbit, Radiation, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -183,6 +183,21 @@ export const TOPICS: Topic[] = [
     icon: Radiation,
     tiers: [
       { tier: 'highschool', route: '#/lesson/radioactive-decay' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'molecular-dynamics',
+    title: 'Molecular Dynamics',
+    domain: 'classical',
+    blurb:
+      'Two atoms pull, push, and settle into a vibration you can solve exactly. Add a third and the motion turns chaotic; add a hundred and a solid melts — so every atom takes small steps instead.',
+    status: 'live',
+    route: '#/lesson/molecular-dynamics',
+    icon: Bubbles,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/molecular-dynamics' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

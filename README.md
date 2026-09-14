@@ -10,10 +10,11 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Nine topics are built so far, all at high-school depth (falling body also
+Ten topics are built so far, all at high-school depth (falling body also
 ships at undergraduate depth): falling bodies, projectile motion, rocket
 launches, orbital motion, the double pendulum, wave interference,
-electromagnetic fields, particle accelerators, and radioactive decay. Each one follows
+electromagnetic fields, particle accelerators, radioactive decay, and molecular
+dynamics. Each one follows
 the same arc — build intuition, derive an exact formula, find the case where
 that formula stops applying, then simulate — and each one ends in a real
 Python lab.
@@ -320,11 +321,45 @@ Seven parts, with a contents rail:
 - **Python lab** — `ISOTOPES`, `START`, `decay_probability(half_life, dt)` and
   `step(atoms, dt)`: the per-atom loop, drawn against the exact curves.
 
+### Lesson 10 — Molecular Dynamics (High School)
+
+Atoms pushing and pulling on each other through the Lennard-Jones potential,
+in real units for argon (nanometres, meV, picoseconds, kelvin). Two atoms are
+solved exactly — turning points from `U(r) = E`, the period from energy
+conservation — and every two-atom run is checked against that answer. Three
+atoms and clusters have no exact answer, so energy conservation is the check
+instead. Seven parts, with a contents rail:
+
+- **Describing interacting atoms** — separation, `U(r) = 4ε[(σ/r)¹² − (σ/r)⁶]`,
+  and `F = −dU/dr`.
+- **One governing rule** — pairwise forces simply add, and Newton's second law
+  does the rest.
+- **Building the mathematical model** — reduced mass, `r_min = 2^(1/6)σ`, and
+  bound or free, with an argon worked example.
+- **Different pairs** — deeper wells, bigger atoms, and the sign of the energy.
+- **Why equations eventually fail** — the three-body problem, and 10²⁵
+  molecules in a cup of water.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Molecular dynamics simulator** — a velocity-Verlet engine, with Euler for
+  contrast, in three setups. Two atoms, with sliders for ε, σ, starting
+  separation and speed, drawn in their energy well against the exact turning
+  points and period. A third atom fired at a vibrating pair, run beside a twin
+  nudged by 10⁻³ to 10⁻⁹ nm, with the gap between them on a log chart. And
+  clusters of 7 to 100 atoms started at 20 to 300 K, tracking the bonds still
+  intact, the atoms that break away, and whether the result behaves like a
+  solid, a liquid or a gas. Charts follow the data-viz method (validated
+  palette, crosshair tooltip, table view).
+- **Python lab** — `pair_force(r)`, `total_forces(positions)` and
+  `step(positions, velocities, forces, dt)`: the whole loop, animated, with its
+  energy checked against the Lennard-Jones formula and two-atom runs checked
+  against the exact answer.
+
 ### The Python lab
 
 Edit the acceleration function (or, for Lessons 6 and 7, the superposition; for
-Lesson 8, the electric field; for Lesson 9, the per-atom step) and run
-it. Python executes for real, in the browser, via
+Lesson 8, the electric field; for Lesson 9, the per-atom step; for Lesson 10,
+the force loop and the step) and run it. Python executes for real, in the browser, via
 [Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
 server. Python errors come back as real tracebacks pointing at the line you
 wrote. The function signature changes with what the physics actually needs:
@@ -340,6 +375,7 @@ wrote. The function signature changes with what the physics actually needs:
 | 7 — Electromagnetic fields | `total_field(x, y, charges)` |
 | 8 — Particle accelerator | `electric_field(x, y, others)` — the lab does the push |
 | 9 — Radioactive decay | `step(atoms, dt)` and `decay_probability(half_life, dt)` |
+| 10 — Molecular dynamics | `pair_force(r)` and `step(positions, velocities, forces, dt)` |
 
 Lesson 1's lab also carries a synced canvas visualizer and live charts
 (height, velocity, energy) alongside the code editor.
@@ -363,6 +399,7 @@ redirect.
 | `#/lesson/electromagnetic-fields` | Lesson 7, high school |
 | `#/lesson/particle-accelerator` | Lesson 8, high school |
 | `#/lesson/radioactive-decay` | Lesson 9, high school |
+| `#/lesson/molecular-dynamics` | Lesson 10, high school |
 
 ## Adding a topic
 
@@ -433,6 +470,7 @@ src/
   vite-env.d.ts                 Vite's ambient types (import.meta.env, etc.)
   data/topics.ts                The topic catalogue (edit this to add topics)
   hooks/useFallingLab.ts        Shared lab state: params, trajectory, Pyodide
+  hooks/usePlayback.ts          Playback clock for precomputed runs (Lesson 10)
   utils/
     simulationEngine.ts         1D falling-body integrator
     projectileEngine.ts         2D projectile integrator (Euler/RK4, drag, wind)
@@ -443,6 +481,7 @@ src/
     electricFieldEngine.ts      Coulomb superposition, method of images, field lines
     acceleratorEngine.ts        Boris pusher: space charge, RF kicks, radiation loss
     decayEngine.ts              Per-atom Monte Carlo decay, Bateman chains, spread
+    mdEngine.ts                 Lennard-Jones velocity Verlet: exact pair, twins, clusters
   components/
     LandingPage.tsx             Topic catalogue
     LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
@@ -503,6 +542,13 @@ src/
     DecayJar.tsx                Jar of atoms coloured by isotope
     DecayPythonLab.tsx          Pyodide code lab (per-atom step)
     DecayInstrumentWidget.tsx
+    MdLesson.tsx                Lesson 10 body
+    MdPage.tsx                  Lesson 10 page shell
+    MdSimulator.tsx             Interactive MD explorer (pair, three atoms, clusters)
+    MdChart.tsx                 Line chart: linear or log, reference lines, table view
+    MdCanvas.tsx                Atoms, bonds, walls, trails and twin overlay
+    MdPythonLab.tsx             Pyodide code lab (force loop and Verlet step)
+    MdInstrumentWidget.tsx
     PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
@@ -515,8 +561,8 @@ live plots.
 
 ## Status
 
-Early prototype. Nine topics are live at high-school depth (falling bodies
+Early prototype. Ten topics are live at high-school depth (falling bodies
 also ships at undergraduate depth). The researcher depth, the undergraduate
-depth for lessons 2–9, and the remaining topics on the landing page
+depth for lessons 2–10, and the remaining topics on the landing page
 (oscillations & waves as a general topic, quantum motion) are still
 placeholders. Feedback welcome.
