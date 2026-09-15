@@ -1,5 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
-import { ArrowDownToLine, Atom, Bubbles, GitBranch, Magnet, Orbit, Radiation, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
+import { ArrowDownToLine, Atom, BrickWall, Bubbles, GitBranch, Magnet, Orbit, Radiation, Radio, Rocket, Target, Waves, Zap } from 'lucide-react';
 import { AudienceTier, PhysicsDomain } from '../types';
 
 export interface Topic {
@@ -198,6 +198,21 @@ export const TOPICS: Topic[] = [
     icon: Bubbles,
     tiers: [
       { tier: 'highschool', route: '#/lesson/molecular-dynamics' },
+      { tier: 'undergrad' },
+      { tier: 'researcher' },
+    ],
+  },
+  {
+    id: 'quantum-tunneling',
+    title: 'Quantum Tunneling',
+    domain: 'modern',
+    blurb:
+      'An electron can cross a barrier it cannot climb. An exact formula for one rectangular wall — then double barriers, shaking fields, and repelling electrons push back toward simulation.',
+    status: 'live',
+    route: '#/lesson/quantum-tunneling',
+    icon: BrickWall,
+    tiers: [
+      { tier: 'highschool', route: '#/lesson/quantum-tunneling' },
       { tier: 'undergrad' },
       { tier: 'researcher' },
     ],

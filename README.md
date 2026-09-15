@@ -10,11 +10,11 @@ up to three depths — High School, Undergraduate, and Researcher — because a
 falling body is a falling body whether you are sixteen or writing a paper.
 What changes is how far down the model you go.
 
-Ten topics are built so far, all at high-school depth (falling body also
+Eleven topics are built so far, all at high-school depth (falling body also
 ships at undergraduate depth): falling bodies, projectile motion, rocket
 launches, orbital motion, the double pendulum, wave interference,
-electromagnetic fields, particle accelerators, radioactive decay, and molecular
-dynamics. Each one follows
+electromagnetic fields, particle accelerators, radioactive decay, molecular
+dynamics, and quantum tunneling. Each one follows
 the same arc — build intuition, derive an exact formula, find the case where
 that formula stops applying, then simulate — and each one ends in a real
 Python lab.
@@ -355,11 +355,45 @@ instead. Seven parts, with a contents rail:
   energy checked against the Lennard-Jones formula and two-atom runs checked
   against the exact answer.
 
+### Lesson 11 — Quantum Tunneling (High School)
+
+An electron's wave packet meeting potential-energy barriers, in electronvolts,
+nanometres and femtoseconds. For one rectangular barrier the exact answer is
+the lesson's transmission formula; for any stack of flat barriers it comes from
+a transfer-matrix calculation. Every simulated packet is checked against it,
+averaged over the packet's own spread of energies. Seven parts, with a contents
+rail:
+
+- **Describing a quantum particle and a barrier** — energy, barrier height and
+  width, and the wavefunction.
+- **One governing rule** — the time-independent Schrödinger equation: free
+  waves outside a barrier, decaying ones inside.
+- **Building the mathematical model** — the exact transmission probability,
+  the thick-barrier shortcut `16(E/V₀)(1 − E/V₀)e^(−2κL)`, and a worked example.
+- **Different barriers** — width, height, and energies near or above the top.
+- **Why equations eventually fail** — irregular and multiple barriers,
+  changing fields, and interacting particles.
+- **How a simulation thinks**, and **real-world applications**.
+
+- **Quantum tunneling simulator** — a split-operator solver (Fourier
+  transforms for the curvature) in four setups: one barrier, checked against
+  the formula, with a log chart of the exponential dependence on width; two
+  barriers, with the exact transmission curve showing the resonances where the
+  pair passes almost everything, and a short or long packet to show why a
+  precisely known energy matters; a barrier whose height oscillates in time,
+  compared with the same barrier held still; and two repelling electrons on a
+  128 × 128 grid, run in slices so the page stays responsive, showing how the
+  repulsion ties their outcomes together.
+- **Python lab** — NumPy in the browser: `potential(x, t)` and a leapfrog
+  `step(psi_old, psi, V, dt)` that measures the curvature at every grid point,
+  checked against the exact answer whenever the barrier holds still.
+
 ### The Python lab
 
 Edit the acceleration function (or, for Lessons 6 and 7, the superposition; for
 Lesson 8, the electric field; for Lesson 9, the per-atom step; for Lesson 10,
-the force loop and the step) and run it. Python executes for real, in the browser, via
+the force loop and the step; for Lesson 11, the potential and the leapfrog
+step) and run it. Python executes for real, in the browser, via
 [Pyodide](https://pyodide.org/) (WebAssembly) — no install, no backend
 server. Python errors come back as real tracebacks pointing at the line you
 wrote. The function signature changes with what the physics actually needs:
@@ -376,6 +410,7 @@ wrote. The function signature changes with what the physics actually needs:
 | 8 — Particle accelerator | `electric_field(x, y, others)` — the lab does the push |
 | 9 — Radioactive decay | `step(atoms, dt)` and `decay_probability(half_life, dt)` |
 | 10 — Molecular dynamics | `pair_force(r)` and `step(positions, velocities, forces, dt)` |
+| 11 — Quantum tunneling | `potential(x, t)` and `step(psi_old, psi, V, dt)`, with NumPy |
 
 Lesson 1's lab also carries a synced canvas visualizer and live charts
 (height, velocity, energy) alongside the code editor.
@@ -400,6 +435,7 @@ redirect.
 | `#/lesson/particle-accelerator` | Lesson 8, high school |
 | `#/lesson/radioactive-decay` | Lesson 9, high school |
 | `#/lesson/molecular-dynamics` | Lesson 10, high school |
+| `#/lesson/quantum-tunneling` | Lesson 11, high school |
 
 ## Adding a topic
 
@@ -482,6 +518,7 @@ src/
     acceleratorEngine.ts        Boris pusher: space charge, RF kicks, radiation loss
     decayEngine.ts              Per-atom Monte Carlo decay, Bateman chains, spread
     mdEngine.ts                 Lennard-Jones velocity Verlet: exact pair, twins, clusters
+    tunnelingEngine.ts          Transfer matrices, split-operator packets, two electrons
   components/
     LandingPage.tsx             Topic catalogue
     LessonPrimitives.tsx        Card / equation / symbol-table / predict blocks
@@ -549,6 +586,12 @@ src/
     MdCanvas.tsx                Atoms, bonds, walls, trails and twin overlay
     MdPythonLab.tsx             Pyodide code lab (force loop and Verlet step)
     MdInstrumentWidget.tsx
+    TunnelingLesson.tsx         Lesson 11 body
+    TunnelingPage.tsx           Lesson 11 page shell
+    TunnelingSimulator.tsx      Interactive barrier explorer (run vs. exact transmission)
+    TunnelingCanvas.tsx         Wave packets drawn on the potential, in energy units
+    TunnelingPythonLab.tsx      Pyodide + NumPy code lab (leapfrog on a grid)
+    TunnelingInstrumentWidget.tsx
     PythonLabEditor.tsx         1D Pyodide code lab (Lesson 1)
     …
 ```
@@ -556,13 +599,13 @@ src/
 ## Stack
 
 React 19 + TypeScript + Vite + Tailwind CSS v4, with Pyodide for real
-in-browser Python execution, KaTeX for equations, and Recharts for Lesson 1's
-live plots.
+in-browser Python execution (plus NumPy, loaded on demand for Lesson 11), KaTeX
+for equations, and Recharts for Lesson 1's live plots.
 
 ## Status
 
-Early prototype. Ten topics are live at high-school depth (falling bodies
+Early prototype. Eleven topics are live at high-school depth (falling bodies
 also ships at undergraduate depth). The researcher depth, the undergraduate
-depth for lessons 2–10, and the remaining topics on the landing page
+depth for lessons 2–11, and the remaining topics on the landing page
 (oscillations & waves as a general topic, quantum motion) are still
 placeholders. Feedback welcome.
